@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>AIA Mississippi 2026 Design Awards — Submission Portal</title>
+  <style>
+    :root {
+      --aia-red: #E74C3C;
+      --aia-red-dark: #c0392b;
+      --bg: #f9f9f9;
+      --card: #ffffff;
+      --border: #ddd;
+      --muted: #666;
+      --success: #2e7d32;
+      --warn: #b35c00;
+      --error: #c62828;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 60px; }
+    header.topbar {
+      background: var(--aia-red);
+      color: #fff;
+      padding: 28px 16px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    header.topbar .mark {
+      font-size: 12px; letter-spacing: 4px; font-weight: 700; opacity: 0.95;
+      text-transform: uppercase;
+    }
+    header.topbar h1 { margin: 4px 0 0 0; font-size: 28px; letter-spacing: 0.5px; font-weight: 700; }
+    header.topbar p.subtitle { margin: 10px 0 0 0; font-size: 14px; opacity: 0.95; letter-spacing: 0.4px; }
+    header.topbar img.logo { max-height: 60px; max-width: 240px; display: inline-block; margin-bottom: 4px; }
+
+    footer.sitefoot {
+      max-width: 860px; margin: 30px auto 0; padding: 20px 16px 40px;
+      text-align: center; font-size: 12px; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer.sitefoot strong { color: #444; }
+    footer.sitefoot a { color: var(--aia-red); text-decoration: none; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .entry-header {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;
+      border-left: 4px solid var(--aia-red);
+      padding-left: 16px;
+    }
+    .entry-header .num {
+      background: var(--aia-red); color: #fff; font-weight: bold;
+      padding: 4px 12px; border-radius: 4px; font-size: 14px;
+    }
+    .entry-header .title { font-size: 18px; font-weight: 600; }
+    .entry-header .firm { color: var(--muted); font-size: 14px; }
+
+    .progress-summary {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; background: #f5f5f5; border-radius: 4px;
+      margin-bottom: 20px; font-size: 14px;
+    }
+    .progress-bar {
+      flex: 1; height: 10px; background: #e0e0e0; border-radius: 5px; overflow: hidden;
+    }
+    .progress-fill { height: 100%; background: var(--aia-red); transition: width 0.3s ease; width: 0%; }
+
+    .badge {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 10px; text-transform: uppercase;
+    }
+    .badge-late { background: #fff3cd; color: var(--warn); border: 1px solid #ffc107; }
+    .badge-status-complete { background: #e8f5e9; color: var(--success); border: 1px solid #a5d6a7; }
+    .badge-status-partial { background: #fff8e1; color: var(--warn); border: 1px solid #ffe082; }
+    .badge-status-registered { background: #f5f5f5; color: var(--muted); border: 1px solid #ccc; }
+
+    h2.section-title {
+      color: var(--aia-red); font-size: 16px; margin: 0 0 14px 0;
+      border-bottom: 2px solid var(--aia-red); padding-bottom: 6px;
+    }
+
+    .slot {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .slot:last-child { border-bottom: none; }
+    .slot .meta { min-width: 0; }
+    .slot .filename {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 13px; color: #444; word-break: break-all;
+    }
+    .slot .descrip { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .slot .upload-info { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .slot.uploaded .filename { color: var(--success); font-weight: 600; }
+
+    .slot-actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      display: inline-block; padding: 8px 16px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent;
+      text-decoration: none; transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--aia-red); color: #fff; }
+    .btn-primary:hover { background: var(--aia-red-dark); }
+    .btn-secondary { background: #fff; color: var(--aia-red); border-color: var(--aia-red); }
+    .btn-secondary:hover { background: #fef0ee; }
+    .btn-ghost { background: transparent; color: var(--muted); padding: 4px 8px; }
+    .btn-ghost:hover { color: var(--error); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    input[type="file"] { display: none; }
+
+    .upload-progress {
+      width: 110px; height: 4px; background: #eee; border-radius: 2px;
+      overflow: hidden; margin-top: 4px;
+    }
+    .upload-progress-fill {
+      height: 100%; background: var(--aia-red); width: 0%;
+      transition: width 0.2s ease;
+    }
+
+    .toast-area {
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .toast {
+      background: #333; color: #fff; padding: 12px 18px;
+      border-radius: 4px; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-width: 360px; animation: slidein 0.2s ease-out;
+    }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--error); }
+    @keyframes slidein { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    .deadline-box {
+      background: #fff3cd; border: 1px solid #ffc107; border-left: 4px solid #ffc107;
+      padding: 14px 16px; border-radius: 4px; font-size: 13px;
+    }
+    .deadline-box strong { color: var(--warn); }
+
+    .help-text {
+      font-size: 13px; color: var(--muted); margin-top: 16px;
+    }
+    .help-text a { color: var(--aia-red); }
+
+    .loading-shell {
+      display: flex; flex-direction: column; align-items: center; padding: 60px 20px;
+    }
+    .spinner {
+      width: 40px; height: 40px; border: 3px solid #eee; border-top-color: var(--aia-red);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-shell {
+      text-align: center; padding: 40px 20px; color: var(--muted);
+    }
+    .error-shell h2 { color: var(--error); margin-bottom: 12px; }
+
+    @media (max-width: 600px) {
+      .slot { grid-template-columns: 1fr; }
+      .slot-actions { justify-content: flex-end; }
+      .entry-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toast-area" id="toastArea"></div>
+
+  <header class="topbar" id="topbar">
+    <!-- Branded header is rendered by JS so the logo URL can be configured below -->
+  </header>
+
+  <div class="wrap">
+    <div id="app">
+      <div class="loading-shell">
+        <div class="spinner"></div>
+        <p style="margin-top: 16px; color: var(--muted);">Loading your submission…</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="sitefoot">
+    <p style="margin:0 0 4px 0;"><strong>AIA Mississippi</strong> — The American Institute of Architects, Mississippi Chapter</p>
+    <p style="margin:0;"><a href="https://www.aiamississippi.org" target="_blank" rel="noopener">www.aiamississippi.org</a> &middot; <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a></p>
+    <p style="margin:8px 0 0 0;">© 2026 AIA Mississippi. All rights reserved.</p>
+  </footer>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // ---------- Configuration ----------
+    const SUPABASE_URL = "https://nommsulegpmbucgsavxh.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_09-YvbXHvlkyw13020vipg_bEJZt-nJ";
+    const REQUEST_UPLOAD_URL_FN = `${SUPABASE_URL}/functions/v1/request-upload-url`;
+
+    // Optional: AIA Mississippi logo URL. Set this to a public image URL (PNG with transparency, ~240x60).
+    // Leave empty string to render the text mark instead.
+    const LOGO_URL = "";
+
+    // ---------- Branded header ----------
+    function renderTopbar() {
+      const tb = document.getElementById("topbar");
+      if (LOGO_URL) {
+        tb.innerHTML = `
+          <img class="logo" src="${LOGO_URL}" alt="AIA Mississippi" />
+          <p class="subtitle">2026 Design Awards · Submission Portal</p>`;
+      } else {
+        tb.innerHTML = `
+          <div class="mark">AIA</div>
+          <h1>Mississippi</h1>
+          <p class="subtitle">2026 Design Awards · Submission Portal</p>`;
+      }
+    }
+    renderTopbar();
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const SLOTS = [
+      { key: "presentation",        label: "Presentation",                   accept: ".pdf",                         desc: "PowerPoint exported as PDF (no firm name)" },
+      { key: "presentation_credit", label: "Presentation with Credits",      accept: ".pdf",                         desc: "PowerPoint as PDF, includes credit slide" },
+      { key: "board",               label: "Digital Board (Anonymous)",      accept: ".pdf",     maxMB: 10,          desc: "20×30 inch PDF, no firm name. Max 10 MB." },
+      { key: "board_withname",      label: "Digital Board (With Name)",      accept: ".pdf",     maxMB: 10,          desc: "20×30 inch PDF, firm name top-left within 6×4 in. Max 10 MB." },
+      { key: "entryform",           label: "Entry Form",                     accept: ".pdf",                         desc: "Completed entry form as PDF" },
+      { key: "image1",              label: "Image 1",                        accept: ".jpg,.jpeg,image/jpeg",         desc: "Horizontal 9.5×12.5 in, ≥300 dpi, JPEG, no watermark" },
+      { key: "image2",              label: "Image 2",                        accept: ".jpg,.jpeg,image/jpeg",         desc: "Horizontal 9.5×12.5 in, ≥300 dpi, JPEG, no watermark" },
+      { key: "image3",              label: "Image 3",                        accept: ".jpg,.jpeg,image/jpeg",         desc: "Horizontal 9.5×12.5 in, ≥300 dpi, JPEG, no watermark" },
+      { key: "image4",              label: "Image 4",                        accept: ".jpg,.jpeg,image/jpeg",         desc: "Horizontal 9.5×12.5 in, ≥300 dpi, JPEG, no watermark" },
+      { key: "image5",              label: "Image 5",                        accept: ".jpg,.jpeg,image/jpeg",         desc: "Horizontal 9.5×12.5 in, ≥300 dpi, JPEG, no watermark" }
+    ];
+
+    // ---------- Token ----------
+    function getToken() {
+      const u = new URL(location.href);
+      return u.searchParams.get("t") || u.hash.replace(/^#\/?/, "");
+    }
+
+    // ---------- Toast ----------
+    function toast(msg, kind = "") {
+      const el = document.createElement("div");
+      el.className = "toast " + kind;
+      el.textContent = msg;
+      document.getElementById("toastArea").appendChild(el);
+      setTimeout(() => el.remove(), 4500);
+    }
+
+    // ---------- Helpers ----------
+    function fmtBytes(n) {
+      if (n == null) return "";
+      if (n < 1024) return `${n} B`;
+      if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+      return `${(n / 1024 / 1024).toFixed(1)} MB`;
+    }
+    function pad2(n) { return String(n).padStart(2, "0"); }
+    function escapeHtml(s) { return String(s ?? "").replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[m])); }
+
+    // ---------- App state ----------
+    const state = {
+      token: getToken(),
+      submission: null,
+      filesByslot: {}
+    };
+
+    // ---------- Render ----------
+    function renderError(title, body) {
+      document.getElementById("app").innerHTML = `
+        <div class="card error-shell">
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(body)}</p>
+          <p style="margin-top:20px;">If you believe this is a mistake, please contact
+            <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a>.
+          </p>
+        </div>`;
+    }
+
+    function renderApp() {
+      const s = state.submission;
+      const ee = pad2(s.entry_number);
+      const filesBySlot = state.filesByslot;
+      const totalSlots = SLOTS.length;
+      const filledCount = Object.keys(filesBySlot).length;
+      const pct = Math.round((filledCount / totalSlots) * 100);
+
+      const statusBadge = s.status === "complete"
+        ? '<span class="badge badge-status-complete">Complete</span>'
+        : s.status === "partial"
+        ? '<span class="badge badge-status-partial">In Progress</span>'
+        : '<span class="badge badge-status-registered">Awaiting Files</span>';
+
+      const lateBadge = s.is_late ? '<span class="badge badge-late">Late Submission (+$50)</span>' : "";
+
+      document.getElementById("app").innerHTML = `
+        <div class="card">
+          <div class="entry-header">
+            <span class="num">Entry #${ee}</span>
+            <div>
+              <div class="title">${escapeHtml(s.project_title)}</div>
+              <div class="firm">${escapeHtml(s.firm_name)} · ${escapeHtml(s.contact_name)}</div>
+            </div>
+            <div style="margin-left:auto; display:flex; gap:6px; flex-wrap:wrap;">
+              ${statusBadge} ${lateBadge}
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-summary">
+          <div><strong>${filledCount} of ${totalSlots}</strong> files uploaded</div>
+          <div class="progress-bar"><div class="progress-fill" style="width: ${pct}%"></div></div>
+          <div>${pct}%</div>
+        </div>
+
+        <div class="card">
+          <div class="deadline-box">
+            <strong>Submission Deadline:</strong> Friday, July 17, 2026, 11:59 pm CT
+            (Late submissions accepted through July 31, 2026, 11:59 pm CT with $50 fee)
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Required Documents (5)</h2>
+          ${SLOTS.slice(0, 5).map(renderSlot).join("")}
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Project Images (5 hi-res)</h2>
+          ${SLOTS.slice(5).map(renderSlot).join("")}
+        </div>
+
+        <div class="help-text">
+          <p><strong>Tips:</strong> Files are auto-renamed when uploaded — you don't need to rename them yourself, but the templates use the convention shown next to each slot.
+          You can replace any file by clicking <em>Replace</em> before the deadline.</p>
+          <p>Need help? Email <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a>.</p>
+        </div>
+      `;
+
+      // wire up handlers
+      for (const slot of SLOTS) {
+        const fileInput = document.getElementById(`file-${slot.key}`);
+        if (fileInput) fileInput.addEventListener("change", (e) => onFilePicked(slot, e.target.files[0]));
+        const delBtn = document.getElementById(`del-${slot.key}`);
+        if (delBtn) delBtn.addEventListener("click", () => onDelete(slot));
+      }
+    }
+
+    function renderSlot(slot) {
+      const ee = pad2(state.submission.entry_number);
+      const filename = `${ee}-${slotBaseFilename(slot.key)}.${slotExt(slot.key)}`;
+      const existing = state.filesByslot[slot.key];
+
+      const uploadInfo = existing
+        ? `<div class="upload-info">
+            ✓ Uploaded ${fmtBytes(existing.file_size)} · <span title="${escapeHtml(existing.original_filename)}">${escapeHtml(existing.original_filename)}</span>
+           </div>`
+        : `<div class="upload-info">Not yet uploaded</div>`;
+
+      const actionBtns = existing
+        ? `<button class="btn btn-secondary" onclick="document.getElementById('file-${slot.key}').click()">Replace</button>
+           <button class="btn btn-ghost" id="del-${slot.key}" title="Remove">✕</button>`
+        : `<button class="btn btn-primary" onclick="document.getElementById('file-${slot.key}').click()">Upload</button>`;
+
+      return `
+        <div class="slot ${existing ? "uploaded" : ""}" id="slot-${slot.key}">
+          <div class="meta">
+            <div class="filename">${filename}</div>
+            <div class="descrip">${escapeHtml(slot.label)} — ${escapeHtml(slot.desc)}</div>
+            ${uploadInfo}
+            <div class="upload-progress" id="prog-${slot.key}" style="display:none;"><div class="upload-progress-fill" id="progfill-${slot.key}"></div></div>
+          </div>
+          <div class="slot-actions">
+            ${actionBtns}
+            <input type="file" id="file-${slot.key}" accept="${slot.accept}" />
+          </div>
+        </div>`;
+    }
+
+    function slotExt(key) {
+      return key.startsWith("image") ? "jpeg" : "pdf";
+    }
+    function slotBaseFilename(key) {
+      return ({
+        presentation: "Presentation",
+        presentation_credit: "Presentation-Credit",
+        board: "Board",
+        board_withname: "Board-withname",
+        entryform: "Entryform",
+        image1: "Image1", image2: "Image2", image3: "Image3", image4: "Image4", image5: "Image5"
+      })[key];
+    }
+
+    // ---------- Upload flow ----------
+    async function onFilePicked(slot, file) {
+      if (!file) return;
+
+      // Client-side size warnings
+      if (slot.maxMB && file.size > slot.maxMB * 1024 * 1024) {
+        toast(`Heads up: ${slot.label} is larger than the recommended ${slot.maxMB} MB. Upload will continue.`, "");
+      }
+      if (file.size > 100 * 1024 * 1024) {
+        toast(`File exceeds the 100 MB hard limit. Please compress and try again.`, "error");
+        return;
+      }
+
+      const progEl = document.getElementById(`prog-${slot.key}`);
+      const progFill = document.getElementById(`progfill-${slot.key}`);
+      progEl.style.display = "block";
+      progFill.style.width = "5%";
+
+      try {
+        // Step 1: get signed upload URL
+        const r1 = await fetch(REQUEST_UPLOAD_URL_FN, {
+          method: "POST",
+          headers: { "content-type": "application/json", "apikey": SUPABASE_ANON_KEY },
+          body: JSON.stringify({ token: state.token, slot: slot.key })
+        });
+        const j1 = await r1.json();
+        if (!r1.ok || !j1.upload_url) throw new Error(j1.error || "Failed to get upload URL");
+        progFill.style.width = "15%";
+
+        // Step 2: PUT file to the signed URL
+        const uploadResp = await uploadWithProgress(j1.upload_url, file, (loaded, total) => {
+          const pct = 15 + Math.round((loaded / total) * 75);
+          progFill.style.width = `${pct}%`;
+        });
+        if (!uploadResp.ok) throw new Error("Storage upload failed: " + uploadResp.status);
+        progFill.style.width = "92%";
+
+        // Step 3: record file in DB
+        const { data: rec, error: recErr } = await supabase.rpc("record_file_upload", {
+          p_token: state.token,
+          p_file_slot: slot.key,
+          p_storage_path: j1.storage_path,
+          p_original_filename: file.name,
+          p_file_size: file.size,
+          p_content_type: file.type || null
+        });
+        if (recErr) throw new Error("DB record failed: " + recErr.message);
+        if (rec && rec.error) throw new Error("DB record: " + rec.error);
+
+        progFill.style.width = "100%";
+        toast(`${slot.label} uploaded.`, "success");
+        await refreshSubmission();
+      } catch (err) {
+        console.error(err);
+        toast(`Upload failed: ${err.message || err}`, "error");
+        progEl.style.display = "none";
+      }
+    }
+
+    function uploadWithProgress(url, file, onProgress) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", url, true);
+        xhr.setRequestHeader("content-type", file.type || "application/octet-stream");
+        xhr.upload.onprogress = (e) => { if (e.lengthComputable) onProgress(e.loaded, e.total); };
+        xhr.onload = () => resolve({ ok: xhr.status >= 200 && xhr.status < 300, status: xhr.status });
+        xhr.onerror = () => reject(new Error("network error"));
+        xhr.send(file);
+      });
+    }
+
+    async function onDelete(slot) {
+      if (!confirm(`Remove ${slot.label}?`)) return;
+      try {
+        const { data, error } = await supabase.rpc("delete_file_upload", {
+          p_token: state.token,
+          p_file_slot: slot.key
+        });
+        if (error) throw new Error(error.message);
+        if (data && data.error) throw new Error(data.error);
+        toast(`${slot.label} removed.`, "success");
+        await refreshSubmission();
+      } catch (err) {
+        toast(`Could not remove file: ${err.message || err}`, "error");
+      }
+    }
+
+    // ---------- Bootstrap ----------
+    async function refreshSubmission() {
+      const { data, error } = await supabase.rpc("get_submission_by_token", { p_token: state.token });
+      if (error) throw new Error(error.message);
+      if (!data) {
+        renderError("Submission Not Found", "This link is invalid or has expired. Please double-check the link in your confirmation email.");
+        return;
+      }
+      state.submission = data;
+      state.filesByslot = {};
+      for (const f of (data.files || [])) state.filesByslot[f.file_slot] = f;
+      renderApp();
+    }
+
+    async function init() {
+      if (!state.token) {
+        renderError("No Submission Link", "This page must be opened with a private submission link from your confirmation email.");
+        return;
+      }
+      try {
+        await refreshSubmission();
+      } catch (err) {
+        console.error(err);
+        renderError("Could Not Load Submission", err.message || String(err));
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

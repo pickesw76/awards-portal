@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>AIA Mississippi 2026 Design Awards — Admin Dashboard</title>
+  <style>
+    :root {
+      --aia-red: #E74C3C; --aia-red-dark: #c0392b;
+      --bg: #f4f4f6; --card: #ffffff; --border: #ddd; --muted: #666;
+      --success: #2e7d32; --warn: #b35c00; --error: #c62828;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: var(--bg); color: #333; margin: 0; }
+    a { color: var(--aia-red); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header.topbar { background: var(--aia-red); color: #fff; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
+    header.topbar .brand { display: flex; align-items: center; gap: 12px; }
+    header.topbar .mark { font-size: 11px; letter-spacing: 3px; font-weight: 700; opacity: 0.9; }
+    header.topbar h1 { margin: 0; font-size: 18px; font-weight: 700; }
+    header.topbar .subtitle { font-size: 13px; opacity: 0.92; margin-left: 12px; }
+    header.topbar .user-info { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+    header.topbar .signout { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    header.topbar .signout:hover { background: rgba(255,255,255,0.3); }
+
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px 16px 60px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 20px; margin-bottom: 16px; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; }
+    .stat .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat .value { font-size: 24px; font-weight: 700; color: var(--aia-red); margin-top: 4px; }
+    .stat.success .value { color: var(--success); }
+    .stat.warn .value { color: var(--warn); }
+
+    /* Filters */
+    .filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+    .filters select, .filters input[type="search"] { padding: 7px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; background: #fff; }
+    .filters input[type="search"] { min-width: 200px; }
+
+    /* Entries table */
+    table.entries { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    table.entries th, table.entries td { padding: 10px 12px; text-align: left; font-size: 13px; border-bottom: 1px solid #eee; }
+    table.entries th { background: #f8f8f8; font-weight: 600; color: #444; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+    table.entries tr { cursor: pointer; }
+    table.entries tr:hover { background: #fafafa; }
+    table.entries td.num { font-weight: 600; color: var(--aia-red); }
+    table.entries td.title { font-weight: 500; }
+    table.entries td.firm { color: var(--muted); }
+
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .badge-late { background: #fff3cd; color: var(--warn); border: 1px solid #ffc107; }
+    .badge-cote { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+    .badge-status-complete { background: #e8f5e9; color: var(--success); border: 1px solid #a5d6a7; }
+    .badge-status-partial { background: #fff8e1; color: var(--warn); border: 1px solid #ffe082; }
+    .badge-status-registered { background: #f5f5f5; color: var(--muted); border: 1px solid #ccc; }
+    .badge-status-disqualified { background: #ffebee; color: var(--error); border: 1px solid #ef9a9a; }
+
+    /* Detail modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 8px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; }
+    .modal-header { background: var(--aia-red); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
+    .modal-header h2 { margin: 0; font-size: 16px; font-weight: 700; }
+    .modal-header .close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0 4px; }
+    .modal-body { padding: 20px; }
+    .modal-body dl { display: grid; grid-template-columns: 130px 1fr; gap: 8px 16px; margin: 0 0 20px 0; font-size: 14px; }
+    .modal-body dt { font-weight: 600; color: var(--muted); }
+    .modal-body dd { margin: 0; }
+    .file-list { list-style: none; padding: 0; margin: 0; }
+    .file-list li { padding: 10px 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .file-list li:last-child { border-bottom: none; }
+    .file-list .name { font-family: "SF Mono", Menlo, monospace; font-size: 13px; }
+    .file-list .name.missing { color: #aaa; font-style: italic; font-family: inherit; }
+    .file-list .size { color: var(--muted); font-size: 12px; }
+    .btn { padding: 7px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; display: inline-block; }
+    .btn-primary { background: var(--aia-red); color: #fff; }
+    .btn-primary:hover { background: var(--aia-red-dark); }
+    .btn-secondary { background: #fff; color: var(--aia-red); border-color: var(--aia-red); }
+
+    /* Login screen */
+    .login-shell { max-width: 420px; margin: 80px auto; }
+    .login-shell .card { padding: 32px; text-align: center; }
+    .login-shell h2 { color: var(--aia-red); margin: 8px 0 18px 0; font-size: 22px; }
+    .login-shell p { color: var(--muted); margin-bottom: 20px; font-size: 14px; }
+    .login-shell input[type="email"] { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; margin-bottom: 12px; }
+    .login-shell button { width: 100%; padding: 11px 14px; background: var(--aia-red); color: #fff; border: none; border-radius: 4px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .login-shell button:hover { background: var(--aia-red-dark); }
+    .login-shell button:disabled { opacity: 0.6; cursor: wait; }
+    .login-shell .msg { margin-top: 14px; font-size: 13px; }
+    .login-shell .msg.success { color: var(--success); }
+    .login-shell .msg.error { color: var(--error); }
+
+    /* Footer */
+    footer.sitefoot { max-width: 1200px; margin: 30px auto 0; padding: 20px 16px 40px; text-align: center; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+    footer.sitefoot a { color: var(--aia-red); }
+
+    .loading { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .spinner { width: 28px; height: 28px; border: 3px solid #eee; border-top-color: var(--aia-red); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .toast-area { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+    .toast { background: #333; color: #fff; padding: 12px 18px; border-radius: 4px; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 360px; }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--error); }
+  </style>
+</head>
+<body>
+  <div class="toast-area" id="toastArea"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div>
+        <div class="mark">AIA MISSISSIPPI</div>
+        <h1>2026 Design Awards · Admin Dashboard</h1>
+      </div>
+    </div>
+    <div class="user-info" id="userInfo" style="display:none;">
+      <span id="userEmail"></span>
+      <button class="signout" id="signoutBtn">Sign out</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div id="app">
+      <div class="loading"><div class="spinner"></div><p>Loading…</p></div>
+    </div>
+  </div>
+
+  <footer class="sitefoot">
+    <p style="margin:0;"><strong>AIA Mississippi</strong> — The American Institute of Architects, Mississippi Chapter</p>
+    <p style="margin:6px 0 0 0;"><a href="https://www.aiamississippi.org">www.aiamississippi.org</a> · <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a></p>
+  </footer>
+
+  <!-- Detail modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Entry detail</h2>
+        <button class="close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://nommsulegpmbucgsavxh.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_09-YvbXHvlkyw13020vipg_bEJZt-nJ";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true }
+    });
+
+    const state = {
+      entries: [],
+      filtered: [],
+      filterStatus: "",
+      filterLate: false,
+      filterCategory: "",
+      filterSearch: ""
+    };
+
+    function escapeHtml(s) { return String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+    function fmtBytes(n) { if (n == null) return ""; if (n < 1024) return `${n} B`; if (n < 1024*1024) return `${(n/1024).toFixed(1)} KB`; return `${(n/1024/1024).toFixed(1)} MB`; }
+    function pad2(n) { return String(n).padStart(2, "0"); }
+    function statusBadge(s) {
+      return `<span class="badge badge-status-${s}">${s}</span>`;
+    }
+
+    function toast(msg, kind = "") {
+      const el = document.createElement("div");
+      el.className = "toast " + kind;
+      el.textContent = msg;
+      document.getElementById("toastArea").appendChild(el);
+      setTimeout(() => el.remove(), 4500);
+    }
+
+    // ------- Login screen -------
+    function renderLogin(message = null, kind = "") {
+      document.getElementById("userInfo").style.display = "none";
+      document.getElementById("app").innerHTML = `
+        <div class="login-shell">
+          <div class="card">
+            <h2>Sign in</h2>
+            <p>Enter your email — we'll send you a one-time login link.<br>Only allowlisted volunteers can access this dashboard.</p>
+            <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email" />
+            <button id="sendLinkBtn">Email me a login link</button>
+            <div class="msg ${kind}" id="loginMsg">${message ?? ""}</div>
+          </div>
+        </div>
+      `;
+      const input = document.getElementById("emailInput");
+      const btn = document.getElementById("sendLinkBtn");
+      const msg = document.getElementById("loginMsg");
+      input.focus();
+      input.addEventListener("keydown", (e) => { if (e.key === "Enter") btn.click(); });
+      btn.addEventListener("click", async () => {
+        const email = input.value.trim();
+        if (!email) return;
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        try {
+          const { error } = await supabase.auth.signInWithOtp({
+            email,
+            options: { emailRedirectTo: window.location.href.split("#")[0] }
+          });
+          if (error) throw error;
+          msg.className = "msg success";
+          msg.textContent = "Check your email — click the link to sign in.";
+        } catch (e) {
+          msg.className = "msg error";
+          msg.textContent = e.message || "Could not send link.";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Email me a login link";
+        }
+      });
+    }
+
+    // ------- Dashboard -------
+    function renderDashboard() {
+      const user = supabase.auth.getSession().then(({ data }) => data.session?.user);
+      // Stats
+      const total = state.entries.length;
+      const complete = state.entries.filter(e => e.status === "complete").length;
+      const partial = state.entries.filter(e => e.status === "partial").length;
+      const registered = state.entries.filter(e => e.status === "registered").length;
+      const late = state.entries.filter(e => e.is_late).length;
+      const cote = state.entries.filter(e => e.cote_award).length;
+
+      const allCategories = Array.from(new Set(state.entries.flatMap(e => e.categories || []))).sort();
+      const categoryOpts = allCategories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+
+      document.getElementById("app").innerHTML = `
+        <div class="stats">
+          <div class="stat"><div class="label">Total Entries</div><div class="value">${total}</div></div>
+          <div class="stat success"><div class="label">Complete</div><div class="value">${complete}</div></div>
+          <div class="stat warn"><div class="label">In Progress</div><div class="value">${partial}</div></div>
+          <div class="stat"><div class="label">Awaiting Files</div><div class="value">${registered}</div></div>
+          <div class="stat warn"><div class="label">Late Entries</div><div class="value">${late}</div></div>
+          <div class="stat"><div class="label">COTE Submissions</div><div class="value">${cote}</div></div>
+        </div>
+        <div class="filters">
+          <input type="search" id="filterSearch" placeholder="Search firm or project…" value="${escapeHtml(state.filterSearch)}" />
+          <select id="filterStatus">
+            <option value="">All statuses</option>
+            <option value="registered" ${state.filterStatus==="registered"?"selected":""}>Awaiting Files</option>
+            <option value="partial" ${state.filterStatus==="partial"?"selected":""}>In Progress</option>
+            <option value="complete" ${state.filterStatus==="complete"?"selected":""}>Complete</option>
+            <option value="disqualified" ${state.filterStatus==="disqualified"?"selected":""}>Disqualified</option>
+          </select>
+          <select id="filterCategory">
+            <option value="">All categories</option>
+            ${categoryOpts}
+          </select>
+          <label style="font-size:13px;"><input type="checkbox" id="filterLate" ${state.filterLate?"checked":""} /> Late only</label>
+          <button class="btn btn-secondary" id="refreshBtn">↻ Refresh</button>
+        </div>
+        <table class="entries">
+          <thead>
+            <tr><th>#</th><th>Project</th><th>Firm</th><th>Status</th><th>Files</th><th>Categories</th><th>Flags</th></tr>
+          </thead>
+          <tbody id="entriesBody"></tbody>
+        </table>
+      `;
+      document.getElementById("filterSearch").addEventListener("input", (e) => { state.filterSearch = e.target.value; renderRows(); });
+      document.getElementById("filterStatus").addEventListener("change", (e) => { state.filterStatus = e.target.value; renderRows(); });
+      document.getElementById("filterCategory").addEventListener("change", (e) => { state.filterCategory = e.target.value; renderRows(); });
+      document.getElementById("filterLate").addEventListener("change", (e) => { state.filterLate = e.target.checked; renderRows(); });
+      document.getElementById("refreshBtn").addEventListener("click", loadEntries);
+      renderRows();
+    }
+
+    function renderRows() {
+      const q = state.filterSearch.toLowerCase();
+      state.filtered = state.entries.filter(e => {
+        if (state.filterStatus && e.status !== state.filterStatus) return false;
+        if (state.filterLate && !e.is_late) return false;
+        if (state.filterCategory && !(e.categories || []).includes(state.filterCategory)) return false;
+        if (q && !(`${e.firm_name} ${e.project_title}`.toLowerCase().includes(q))) return false;
+        return true;
+      });
+
+      const body = document.getElementById("entriesBody");
+      if (state.filtered.length === 0) {
+        body.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888; padding:30px;">No entries match the current filters.</td></tr>`;
+        return;
+      }
+      body.innerHTML = state.filtered.map(e => `
+        <tr data-id="${e.id}">
+          <td class="num">${pad2(e.entry_number)}</td>
+          <td class="title">${escapeHtml(e.project_title)}</td>
+          <td class="firm">${escapeHtml(e.firm_name)}</td>
+          <td>${statusBadge(e.status)}</td>
+          <td>${e.files_uploaded} / 10</td>
+          <td style="font-size:12px;">${(e.categories || []).map(escapeHtml).join(", ")}</td>
+          <td>${e.is_late ? '<span class="badge badge-late">Late</span> ' : ""}${e.cote_award ? '<span class="badge badge-cote">COTE</span>' : ""}</td>
+        </tr>
+      `).join("");
+      body.querySelectorAll("tr").forEach(tr => tr.addEventListener("click", () => openDetail(tr.dataset.id)));
+    }
+
+    // ------- Detail modal -------
+    const ALL_SLOTS = [
+      { key: "presentation", label: "Presentation" },
+      { key: "presentation_credit", label: "Presentation w/ Credits" },
+      { key: "board", label: "Board (Anonymous)" },
+      { key: "board_withname", label: "Board (With Name)" },
+      { key: "entryform", label: "Entry Form" },
+      { key: "image1", label: "Image 1" }, { key: "image2", label: "Image 2" },
+      { key: "image3", label: "Image 3" }, { key: "image4", label: "Image 4" }, { key: "image5", label: "Image 5" }
+    ];
+
+    async function openDetail(submissionId) {
+      const overlay = document.getElementById("modalOverlay");
+      const body = document.getElementById("modalBody");
+      const title = document.getElementById("modalTitle");
+      body.innerHTML = `<div class="loading"><div class="spinner"></div><p>Loading entry…</p></div>`;
+      overlay.classList.add("open");
+
+      try {
+        const { data, error } = await supabase.rpc("admin_get_submission", { p_id: submissionId });
+        if (error) throw new Error(error.message);
+        if (!data) throw new Error("Entry not found");
+
+        const ee = pad2(data.entry_number);
+        title.textContent = `Entry #${ee} — ${data.project_title}`;
+        const filesByslot = {};
+        (data.files || []).forEach(f => { filesByslot[f.file_slot] = f; });
+
+        body.innerHTML = `
+          <dl>
+            <dt>Entry #</dt><dd><strong>${ee}</strong></dd>
+            <dt>Firm</dt><dd>${escapeHtml(data.firm_name)}</dd>
+            <dt>Contact</dt><dd>${escapeHtml(data.contact_name)} &lt;<a href="mailto:${escapeHtml(data.contact_email)}">${escapeHtml(data.contact_email)}</a>&gt;</dd>
+            <dt>Project</dt><dd>${escapeHtml(data.project_title)}</dd>
+            <dt>Categories</dt><dd>${(data.categories || []).map(escapeHtml).join(", ") || "—"}</dd>
+            <dt>COTE Award</dt><dd>${data.cote_award ? "Yes" : "No"}</dd>
+            <dt>Status</dt><dd>${statusBadge(data.status)}${data.is_late ? ' <span class="badge badge-late">Late</span>' : ""}</dd>
+            <dt>Registered</dt><dd>${new Date(data.registration_date).toLocaleString()}</dd>
+          </dl>
+          <h3 style="margin:0 0 10px 0;font-size:14px;color:var(--aia-red);text-transform:uppercase;letter-spacing:0.5px;">Files</h3>
+          <ul class="file-list" id="modalFiles">
+            ${ALL_SLOTS.map(slot => {
+              const f = filesByslot[slot.key];
+              const expectedName = `${ee}-${({presentation:"Presentation",presentation_credit:"Presentation-Credit",board:"Board",board_withname:"Board-withname",entryform:"Entryform",image1:"Image1",image2:"Image2",image3:"Image3",image4:"Image4",image5:"Image5"})[slot.key]}.${slot.key.startsWith("image") ? "jpeg" : "pdf"}`;
+              if (f) {
+                return `<li><span class="name">${expectedName}</span><span class="size">${fmtBytes(f.file_size)} · <button class="btn btn-primary" data-path="${escapeHtml(f.storage_path)}" data-name="${escapeHtml(expectedName)}">Download</button></span></li>`;
+              } else {
+                return `<li><span class="name missing">${expectedName} — not yet uploaded</span><span class="size">—</span></li>`;
+              }
+            }).join("")}
+          </ul>
+          <p style="margin-top:14px;font-size:12px;color:var(--muted);">Files are stored at <code>entries/${ee}/</code>. Download links expire after 10 minutes.</p>
+        `;
+        body.querySelectorAll("button[data-path]").forEach(b => b.addEventListener("click", () => downloadFile(b.dataset.path, b.dataset.name)));
+      } catch (e) {
+        body.innerHTML = `<div style="color:var(--error);">Error loading: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    async function downloadFile(path, filename) {
+      try {
+        const { data, error } = await supabase.storage.from("submissions").createSignedUrl(path, 600, { download: filename });
+        if (error) throw new Error(error.message);
+        window.open(data.signedUrl, "_blank");
+      } catch (e) {
+        toast("Download failed: " + (e.message || e), "error");
+      }
+    }
+
+    document.getElementById("modalClose").addEventListener("click", () => document.getElementById("modalOverlay").classList.remove("open"));
+    document.getElementById("modalOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "modalOverlay") document.getElementById("modalOverlay").classList.remove("open");
+    });
+
+    // ------- Auth + load flow -------
+    async function loadEntries() {
+      const { data, error } = await supabase.rpc("admin_list_submissions");
+      if (error) {
+        if (error.code === "P0001" || error.message.includes("forbidden")) {
+          toast("You don't have access to this dashboard. Contact Steve.", "error");
+          await supabase.auth.signOut();
+          renderLogin("Your email isn't on the volunteer allowlist. Contact steve@aiamississippi.org.", "error");
+          return;
+        }
+        toast("Could not load entries: " + error.message, "error");
+        return;
+      }
+      state.entries = data || [];
+      renderDashboard();
+    }
+
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        renderLogin();
+        return;
+      }
+      // Show user info
+      document.getElementById("userInfo").style.display = "flex";
+      document.getElementById("userEmail").textContent = session.user.email;
+      document.getElementById("signoutBtn").addEventListener("click", async () => {
+        await supabase.auth.signOut();
+        location.reload();
+      });
+      await loadEntries();
+    }
+
+    // Listen for auth state changes (magic link returning)
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        // strip the hash and reload to clean URL
+        if (location.hash) {
+          history.replaceState(null, "", location.pathname);
+        }
+        init();
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

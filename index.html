@@ -212,6 +212,7 @@
     const SUPABASE_URL = "https://nommsulegpmbucgsavxh.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_09-YvbXHvlkyw13020vipg_bEJZt-nJ";
     const REQUEST_UPLOAD_URL_FN = `${SUPABASE_URL}/functions/v1/request-upload-url`;
+    const NOTIFY_EVENT_FN = `${SUPABASE_URL}/functions/v1/notify-event`;
 
     // Optional: AIA Mississippi logo URL. Set this to a public image URL (PNG with transparency, ~240x60).
     // Leave empty string to render the text mark instead.
@@ -457,6 +458,20 @@
 
         progFill.style.width = "100%";
         toast(`${slot.label} uploaded.`, "success");
+
+        // If this upload completed the entry, notify volunteers
+        if (rec && rec.became_complete) {
+          try {
+            await fetch(NOTIFY_EVENT_FN, {
+              method: "POST",
+              headers: { "content-type": "application/json", "apikey": SUPABASE_ANON_KEY },
+              body: JSON.stringify({ event: "complete", token: state.token })
+            });
+          } catch (e) {
+            console.warn("complete notification failed:", e);
+          }
+        }
+
         await refreshSubmission();
       } catch (err) {
         console.error(err);

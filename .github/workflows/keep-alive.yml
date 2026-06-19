@@ -1,0 +1,19 @@
+name: Keep Supabase awake
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase edge function
+        run: |
+          STATUS=$(curl -s -o /tmp/body -w "%{http_code}" \
+            "https://nommsulegpmbucgsavxh.supabase.co/functions/v1/jotform-webhook")
+          echo "HTTP status: $STATUS"
+          cat /tmp/body
+          [ "$STATUS" = "200" ] || exit 1
+          echo "Project is awake."

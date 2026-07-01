@@ -215,6 +215,9 @@
     const REQUEST_DOWNLOAD_URL_FN = `${SUPABASE_URL}/functions/v1/request-download-url`;
     const NOTIFY_EVENT_FN = `${SUPABASE_URL}/functions/v1/notify-event`;
 
+    // Entry templates folder (PowerPoint template, board template, Call for Entries, COTE guidance)
+    const TEMPLATES_URL = "https://drive.google.com/drive/folders/1akrmnufYb55Yslj0JaOe8xq1JG_6SEz-?usp=sharing";
+
     // Optional: AIA Mississippi logo URL. Set this to a public image URL (PNG with transparency, ~240x60).
     // Leave empty string to render the text mark instead.
     const LOGO_URL = "";
@@ -328,6 +331,18 @@
           <div><strong>${filledCount} of ${totalSlots}</strong> files uploaded</div>
           <div class="progress-bar"><div class="progress-fill" style="width: ${pct}%"></div></div>
           <div>${pct}%</div>
+        </div>
+
+        <div class="card">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 260px;">
+              <strong style="color: var(--aia-red); font-size: 15px;">Entry Templates &amp; Resources</strong>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--muted);">
+                PowerPoint presentation template, digital board template (.indd), 2026 Call for Entries, and COTE Guidance &mdash; all in one Google Drive folder.
+              </p>
+            </div>
+            <a class="btn btn-secondary" href="${TEMPLATES_URL}" target="_blank" rel="noopener" style="white-space: nowrap;">Open Templates &rarr;</a>
+          </div>
         </div>
 
         <div class="card">

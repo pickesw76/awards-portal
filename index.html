@@ -212,6 +212,7 @@
     const SUPABASE_URL = "https://nommsulegpmbucgsavxh.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_09-YvbXHvlkyw13020vipg_bEJZt-nJ";
     const REQUEST_UPLOAD_URL_FN = `${SUPABASE_URL}/functions/v1/request-upload-url`;
+    const REQUEST_DOWNLOAD_URL_FN = `${SUPABASE_URL}/functions/v1/request-download-url`;
     const NOTIFY_EVENT_FN = `${SUPABASE_URL}/functions/v1/notify-event`;
 
     // Optional: AIA Mississippi logo URL. Set this to a public image URL (PNG with transparency, ~240x60).
@@ -359,6 +360,25 @@
         if (fileInput) fileInput.addEventListener("change", (e) => onFilePicked(slot, e.target.files[0]));
         const delBtn = document.getElementById(`del-${slot.key}`);
         if (delBtn) delBtn.addEventListener("click", () => onDelete(slot));
+        const dlBtn = document.getElementById(`dl-${slot.key}`);
+        if (dlBtn) dlBtn.addEventListener("click", () => onDownload(slot));
+      }
+    }
+
+    async function onDownload(slot) {
+      const existing = state.filesByslot[slot.key];
+      if (!existing) return;
+      try {
+        const resp = await fetch(REQUEST_DOWNLOAD_URL_FN, {
+          method: "POST",
+          headers: { "content-type": "application/json", "apikey": SUPABASE_ANON_KEY },
+          body: JSON.stringify({ token: state.token, slot: slot.key })
+        });
+        const j = await resp.json();
+        if (!resp.ok || !j.url) throw new Error(j.error || "download failed");
+        window.open(j.url, "_blank");
+      } catch (err) {
+        toast(`Could not download: ${err.message || err}`, "error");
       }
     }
 
@@ -374,7 +394,8 @@
         : `<div class="upload-info">Not yet uploaded</div>`;
 
       const actionBtns = existing
-        ? `<button class="btn btn-secondary" onclick="document.getElementById('file-${slot.key}').click()">Replace</button>
+        ? `<button class="btn btn-secondary" id="dl-${slot.key}" title="Download current file">↓ Download</button>
+           <button class="btn btn-secondary" onclick="document.getElementById('file-${slot.key}').click()">Replace</button>
            <button class="btn btn-ghost" id="del-${slot.key}" title="Remove">✕</button>`
         : `<button class="btn btn-primary" onclick="document.getElementById('file-${slot.key}').click()">Upload</button>`;
 

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 AIA | MS Membership Awards - Nominations</title>
+<style>
+  :root { --red:#E74C3C; --dark:#333; --muted:#666; --line:#ddd; --bg:#f7f7f7; }
+  * { box-sizing:border-box; }
+  body { font-family:Arial,Helvetica,sans-serif; margin:0; color:var(--dark); background:var(--bg); line-height:1.55; }
+  .banner { background:var(--red); color:#fff; padding:26px 20px; }
+  .banner-inner { max-width:960px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+  .logo .aia { font-size:30px; font-weight:bold; letter-spacing:1px; }
+  .logo .ms { font-size:15px; font-weight:bold; }
+  .banner h1 { margin:0; font-size:22px; text-align:right; }
+  .banner .sub { font-size:12px; letter-spacing:3px; text-align:right; margin-top:2px; }
+  .banner .due { font-size:12px; text-align:right; margin-top:8px; font-weight:bold; }
+  .wrap { max-width:960px; margin:0 auto; padding:24px 20px 60px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:6px; padding:20px 22px; margin-bottom:16px; }
+  .card h3 { margin:0 0 4px; font-size:15px; letter-spacing:0.5px; text-transform:uppercase; }
+  .chip { display:inline-block; background:#fdeceb; color:var(--red); font-size:11px; font-weight:bold; padding:2px 9px; border-radius:10px; margin-bottom:8px; }
+  .card p { margin:6px 0 12px; font-size:13.5px; color:#444; }
+  .btn { display:inline-block; background:var(--red); color:#fff; border:none; border-radius:4px; padding:10px 18px; font-size:13.5px; font-weight:bold; cursor:pointer; text-decoration:none; }
+  .btn.secondary { background:#fff; color:var(--red); border:1px solid var(--red); }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .sectionhead { color:var(--red); font-weight:bold; letter-spacing:2px; font-size:15px; margin:26px 0 10px; text-transform:uppercase; }
+  .intro { background:#fff; border:1px solid var(--line); border-radius:6px; padding:18px 22px; font-size:14px; }
+  label { display:block; font-size:12px; font-weight:bold; color:var(--muted); margin:12px 0 3px; }
+  label .req { color:var(--red); }
+  input[type=text], input[type=email], textarea, select { width:100%; padding:9px 10px; border:1px solid #ccc; border-radius:4px; font-size:14px; font-family:inherit; }
+  textarea { min-height:90px; resize:vertical; }
+  .help { font-size:11.5px; color:#888; margin-top:3px; }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:0 18px; }
+  @media (max-width:640px){ .cols { grid-template-columns:1fr; } }
+  .attest { display:flex; gap:10px; align-items:flex-start; background:#fdeceb; border-left:4px solid var(--red); padding:12px 14px; margin-top:16px; font-size:13px; }
+  .attest input { margin-top:3px; }
+  .msg { padding:12px 14px; border-radius:4px; font-size:13.5px; margin:14px 0; display:none; }
+  .msg.err { background:#fdecea; color:#a33; border:1px solid #f0b9b3; display:block; }
+  .msg.ok { background:#e8f5e9; color:#2e7d32; border:1px solid #b5dcb8; display:block; }
+  .slot { display:flex; justify-content:space-between; align-items:center; gap:12px; border:1px solid var(--line); border-radius:5px; padding:12px 14px; margin-bottom:8px; background:#fff; flex-wrap:wrap; }
+  .slot .name { font-size:13.5px; font-weight:bold; }
+  .slot .tag { font-size:10.5px; font-weight:bold; padding:1px 7px; border-radius:8px; margin-left:8px; }
+  .tag.required { background:#fdeceb; color:var(--red); }
+  .tag.optional { background:#eee; color:#777; }
+  .slot .fileinfo { font-size:12px; color:#2e7d32; }
+  .slot .empty { font-size:12px; color:#999; }
+  .slot .actions { display:flex; gap:8px; }
+  .slot .actions button { font-size:12px; padding:6px 12px; }
+  .progress { background:#fff; border:1px solid var(--line); border-radius:6px; padding:14px 18px; margin:14px 0; font-size:13.5px; }
+  .bar { height:8px; background:#eee; border-radius:4px; overflow:hidden; margin-top:8px; }
+  .bar > div { height:100%; background:var(--red); width:0; transition:width .3s; }
+  .hidden { display:none !important; }
+  a { color:var(--red); }
+  .footer { text-align:center; font-size:12px; color:#888; margin-top:40px; }
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="banner-inner">
+    <div class="logo"><div class="aia">AIA</div><div class="ms">Mississippi</div></div>
+    <div>
+      <h1>2026 AIA | MS Membership Awards</h1>
+      <div class="sub">NOMINATION PORTAL</div>
+      <div class="due">Nominations Due &bull; Tuesday, September 1, 2026, 11:59pm</div>
+    </div>
+  </div>
+</div>
+<div class="wrap">
+
+  <!-- ============ LANDING ============ -->
+  <div id="view-landing">
+    <div class="intro">
+      The AIA Mississippi Membership Awards recognize individuals who have contributed in some significant way to AIA|MS and to the profession and practice of architecture through community and civic involvement. Choose an award below to start a nomination. Every nomination gets its own private page where you upload letters of support and materials, and you may submit as many nominations as you like. Nominations must be submitted by an AIA Mississippi member. Letters of support shall not come from employees, coworkers, or staff of the nominee.
+    </div>
+    <div class="sectionhead">Award Categories</div>
+    <div id="award-cards"></div>
+  </div>
+
+  <!-- ============ START FORM ============ -->
+  <div id="view-start" class="hidden">
+    <a href="#" class="btn secondary" id="back-btn" style="margin-bottom:14px">&larr; All awards</a>
+    <div class="card">
+      <h3 id="start-award-name"></h3>
+      <span class="chip" id="start-award-chip"></span>
+      <p id="start-award-narrative"></p>
+    </div>
+    <div class="card">
+      <div class="sectionhead" style="margin-top:0">Nominee</div>
+      <div class="cols">
+        <div><label>Nominee name <span class="req">*</span></label><input type="text" id="f-nominee_name"></div>
+        <div><label>Organization</label><input type="text" id="f-nominee_org"></div>
+        <div><label>Phone</label><input type="text" id="f-nominee_phone"></div>
+      </div>
+      <div id="ltaa-fields" class="hidden">
+        <div class="cols">
+          <div><label>Year the nominee became a member of AIA|MS <span class="req">*</span></label><input type="text" id="f-ltaa_member_year"><div class="help">A minimum of 15 years of continuous membership in current good standing is required.</div></div>
+        </div>
+        <label>Civic, religious, and community service memberships</label>
+        <textarea id="f-ltaa_civic_memberships"></textarea>
+        <div class="help">List the nominee's membership in and service to associations other than AIA.</div>
+      </div>
+      <div class="sectionhead">Nominator (you)</div>
+      <div class="cols">
+        <div><label>Your name <span class="req">*</span></label><input type="text" id="f-nominator_name"></div>
+        <div><label>Organization</label><input type="text" id="f-nominator_org"></div>
+        <div><label>Email <span class="req">*</span></label><input type="email" id="f-nominator_email"><div class="help">Your private nomination link will be sent here.</div></div>
+        <div><label>Phone</label><input type="text" id="f-nominator_phone"></div>
+        <div><label>AIA member number <span class="req">*</span></label><input type="text" id="f-aia_member_number"><div class="help">Nominations must be submitted by an AIA Mississippi member.</div></div>
+      </div>
+      <label>Reason for nominating <span class="req">*</span></label>
+      <textarea id="f-reason"></textarea>
+      <div class="help">Describe the specific circumstances, activities, or events that qualify the nominee for this award.</div>
+      <label>Suggested award narration</label>
+      <textarea id="f-narration"></textarea>
+      <div class="help">Optional: a short paragraph we can read at the Awards Ceremony and use in publications if your nominee is selected.</div>
+      <input type="text" id="f-website" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="attest">
+        <input type="checkbox" id="f-attested">
+        <div>I confirm that none of the letters of support will come from employees, coworkers, or staff of the nominee, and that each letter describes a specific circumstance, activity, event, or other tangible contribution tied to this nomination.</div>
+      </div>
+      <div class="msg err" id="start-err"></div>
+      <p style="margin-top:18px"><button class="btn" id="submit-btn">Start Nomination</button></p>
+    </div>
+  </div>
+
+  <!-- ============ SUCCESS ============ -->
+  <div id="view-success" class="hidden">
+    <div class="card">
+      <h3 style="color:var(--red)">Nomination started</h3>
+      <p>Your nomination number is <strong id="success-number"></strong>. We emailed your private link to <strong id="success-email"></strong>. You can also continue right now:</p>
+      <p><a class="btn" id="success-link" href="#">Open My Nomination Page</a></p>
+      <p class="help">Bookmark or keep the email; the private link is how you return to upload or replace files before the deadline.</p>
+    </div>
+  </div>
+
+  <!-- ============ PRIVATE NOMINATION PAGE ============ -->
+  <div id="view-portal" class="hidden">
+    <div class="card">
+      <h3 id="p-award-name"></h3>
+      <span class="chip" id="p-number"></span>
+      <p style="font-size:15px;margin:8px 0 2px"><strong>Nominee:</strong> <span id="p-nominee"></span></p>
+      <p style="margin:2px 0 10px"><strong>Nominator:</strong> <span id="p-nominator"></span></p>
+      <p id="p-narrative"></p>
+    </div>
+    <div class="progress">
+      <strong>Checklist</strong> &mdash; <span id="p-progress-text"></span>
+      <div class="bar"><div id="p-bar"></div></div>
+      <div class="help" style="margin-top:8px">Upload PDF or Word files (15MB max each). Files are renamed automatically to the correct convention. You can replace or remove files any time before <strong>September 1, 2026, 11:59pm</strong>.</div>
+    </div>
+    <div class="msg err" id="p-err"></div>
+    <div class="msg ok" id="p-ok"></div>
+    <div id="p-slots"></div>
+  </div>
+
+  <div id="view-loading" class="hidden"><div class="card"><p>Loading your nomination&hellip;</p></div></div>
+
+  <div class="footer">Questions? Contact Steve Pickering at <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a><br>AIA Mississippi &bull; www.aiamississippi.org</div>
+</div>
+
+<script>
+var SUPABASE_URL = "https://nommsulegpmbucgsavxh.supabase.co";
+var ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vbW1zdWxlZ3BtYnVjZ3NhdnhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2Mjk0ODUsImV4cCI6MjA5MzIwNTQ4NX0.Xpo4MWG-d1qKnB3tUm35R0vboCgDYz3Uj-xWxyaljw0";
+var MAX_BYTES = 15 * 1024 * 1024;
+
+var AWARDS = {
+  certificate: { name: "Certificate of Appreciation", chip: "Requires 2 letters of support",
+    narrative: "Honors an individual who has rendered distinguished service in advancing the objectives of AIA Mississippi. A strong nomination points to specific service: committee leadership, event organization, advocacy work, or sustained volunteerism, and explains the impact that service had on the chapter. Your letters should name the activities and time period, not just praise the person." },
+  friend: { name: "Friend of Architecture Award", chip: "Requires 2 letters of support",
+    narrative: "Recognizes someone outside the profession, an individual or organization, whose actions have meaningfully supported the practice of architecture in Mississippi. Tell us what they actually did: championed good design in public projects, supported preservation, funded programs, or advocated for the profession in policy. The stronger the cause-and-effect story, the stronger the nomination." },
+  presidential: { name: "Presidential Citation", chip: "No letters required",
+    narrative: "Awarded at the discretion of the AIAMS President for exceptional work performed on behalf of the chapter. Nominations here serve as recommendations to the President; describe the specific work and why it went beyond what was asked." },
+  community: { name: "Community Service Award", chip: "Requires 2 letters of support",
+    narrative: "For a Member or Associate Member whose service to a community, city, state, or civic group stands out. The committee looks for service beyond professional duties: name the organizations, the nominee's role, how long they served, and what changed because they were involved." },
+  education: { name: "Education Commendation", chip: "Requires 5 letters of support",
+    narrative: "Recognizes a significant contribution to education related to the purposes of AIA. Strong nominations identify the programs, courses, mentorships, or initiatives involved and give a sense of reach: how many students, over how many years, with what results." },
+  citizen: { name: "Citizen Architect Award", chip: "Requires 5 letters of support",
+    narrative: "Honors an AIAMS Member who has contributed to society over a sustained period, particularly through public roles where architectural insight served the broader community: boards, commissions, civic initiatives. Letters should trace the pattern of engagement across years, not a single event." },
+  emerging: { name: "Emerging Professional Award", chip: "Requires 2 letters of support",
+    narrative: "For an Associate Member showing leadership early: in the profession, in education, in the community, and toward the next generation of architects. Describe the leadership roles held, who the nominee has mentored or organized, and why their trajectory merits recognition now." },
+  firm: { name: "Firm Award", chip: "Up to 3 letters of support + supporting material",
+    narrative: "The chapter's recognition of a firm or sole practitioner (with at least one licensed AIA member architect) for long-term, substantial contributions to the profession, unparalleled commitment to AIA, and service to local and state communities. Support material (up to 10 pages) should cover the firm's history of AIA involvement, professional contributions, and community service." },
+  mainstreet: { name: "Main Street Award", chip: "Letters optional + supporting material",
+    narrative: "Recognizes a preservation project that contributes to the transformation of a downtown in a designated Main Street community. Identify the project, the community, and the before-and-after story: what the building was, what it became, and what it sparked around it." },
+  lifetime: { name: "Lifetime Achievement Award", chip: "5 letters of support + resume + civic record",
+    narrative: "The highest honor AIAMS bestows, given to one Architect Member per year for a lifetime of significant contribution to society. The committee expects a complete picture: the resume, the civic record, at least 5 letters of support from people with direct knowledge of the service, and evidence of at least 15 years of continuous membership. This nomination should read as a career-spanning case, not a snapshot." }
+};
+
+var currentAward = null;
+var currentToken = null;
+var currentState = null;
+
+function $(id){ return document.getElementById(id); }
+function show(id){ ["view-landing","view-start","view-success","view-portal","view-loading"].forEach(function(v){ $(v).classList.toggle("hidden", v!==id); }); window.scrollTo(0,0); }
+
+function api(path, body){
+  return fetch(SUPABASE_URL + "/functions/v1/" + path, {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + ANON_KEY, "apikey": ANON_KEY, "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  }).then(function(r){ return r.json(); });
+}
+
+/* ---------- landing ---------- */
+function renderLanding(){
+  var host = $("award-cards");
+  host.innerHTML = "";
+  Object.keys(AWARDS).forEach(function(key){
+    var a = AWARDS[key];
+    var div = document.createElement("div");
+    div.className = "card";
+    var h = document.createElement("h3"); h.textContent = a.name;
+    var chip = document.createElement("span"); chip.className = "chip"; chip.textContent = a.chip;
+    var p = document.createElement("p"); p.textContent = a.narrative;
+    var btn = document.createElement("button"); btn.className = "btn"; btn.textContent = "Nominate for this award";
+    btn.onclick = function(){ openStart(key); };
+    div.appendChild(h); div.appendChild(chip); div.appendChild(p); div.appendChild(btn);
+    host.appendChild(div);
+  });
+}
+
+function openStart(key){
+  currentAward = key;
+  var a = AWARDS[key];
+  $("start-award-name").textContent = a.name;
+  $("start-award-chip").textContent = a.chip;
+  $("start-award-narrative").textContent = a.narrative;
+  $("ltaa-fields").classList.toggle("hidden", key !== "lifetime");
+  $("start-err").style.display = "none";
+  show("view-start");
+}
+
+$("back-btn").onclick = function(e){ e.preventDefault(); show("view-landing"); };
+
+$("submit-btn").onclick = function(){
+  var err = $("start-err");
+  err.style.display = "none";
+  var payload = {
+    award: currentAward,
+    nominee_name: $("f-nominee_name").value,
+    nominee_org: $("f-nominee_org").value,
+    nominee_phone: $("f-nominee_phone").value,
+    nominator_name: $("f-nominator_name").value,
+    nominator_org: $("f-nominator_org").value,
+    nominator_email: $("f-nominator_email").value,
+    nominator_phone: $("f-nominator_phone").value,
+    aia_member_number: $("f-aia_member_number").value,
+    reason: $("f-reason").value,
+    narration: $("f-narration").value,
+    ltaa_member_year: $("f-ltaa_member_year").value,
+    ltaa_civic_memberships: $("f-ltaa_civic_memberships").value,
+    attested: $("f-attested").checked,
+    website: $("f-website").value
+  };
+  var missing = [];
+  if (!payload.nominee_name.trim()) missing.push("Nominee name");
+  if (!payload.nominator_name.trim()) missing.push("Your name");
+  if (!payload.nominator_email.trim()) missing.push("Email");
+  if (!payload.aia_member_number.trim()) missing.push("AIA member number");
+  if (!payload.reason.trim()) missing.push("Reason for nominating");
+  if (currentAward === "lifetime" && !payload.ltaa_member_year.trim()) missing.push("Membership year");
+  if (missing.length){ err.textContent = "Please complete: " + missing.join(", ") + "."; err.style.display = "block"; return; }
+  if (!payload.attested){ err.textContent = "Please check the confirmation statement before submitting."; err.style.display = "block"; return; }
+
+  var btn = $("submit-btn"); btn.disabled = true; btn.textContent = "Submitting...";
+  api("create-nomination", payload).then(function(res){
+    btn.disabled = false; btn.textContent = "Start Nomination";
+    if (!res.ok){
+      var msgs = { deadline_passed: "The nomination deadline has passed.", invalid_email: "Please enter a valid email address.", attestation_required: "Please check the confirmation statement." };
+      err.textContent = msgs[res.error] || ("Something went wrong (" + (res.error || "unknown") + "). Please try again or email steve@aiamississippi.org.");
+      err.style.display = "block"; return;
+    }
+    $("success-number").textContent = res.nomination_number;
+    $("success-email").textContent = payload.nominator_email;
+    $("success-link").href = res.portal_link;
+    show("view-success");
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = "Start Nomination";
+    err.textContent = "Network error. Please try again."; err.style.display = "block";
+  });
+};
+
+/* ---------- private page ---------- */
+function loadPortal(token){
+  currentToken = token;
+  show("view-loading");
+  api("nomination-files", { action: "state", token: token }).then(function(res){
+    if (!res.ok){
+      show("view-landing");
+      alert(res.error === "invalid_token" ? "That nomination link is not valid. Please use the link from your confirmation email." : "Could not load your nomination. Please try again.");
+      return;
+    }
+    currentState = res;
+    renderPortal();
+    show("view-portal");
+  }).catch(function(){ show("view-landing"); alert("Network error loading your nomination."); });
+}
+
+function renderPortal(){
+  var st = currentState;
+  var award = AWARDS[st.nomination.award] || { narrative: "" };
+  $("p-award-name").textContent = st.nomination.award_name;
+  $("p-number").textContent = "Nomination " + st.nomination.number;
+  $("p-nominee").textContent = st.nomination.nominee_name + (st.nomination.nominee_org ? " (" + st.nomination.nominee_org + ")" : "");
+  $("p-nominator").textContent = st.nomination.nominator_name;
+  $("p-narrative").textContent = award.narrative;
+  $("p-err").style.display = "none";
+
+  var filesBySlot = {};
+  st.files.forEach(function(f){ filesBySlot[f.slot] = f; });
+
+  var requiredTotal = 0, requiredDone = 0;
+  st.slots.forEach(function(s){ if (s.required){ requiredTotal++; if (filesBySlot[s.slot]) requiredDone++; } });
+  $("p-progress-text").textContent = requiredTotal
+    ? (requiredDone + " of " + requiredTotal + " required file" + (requiredTotal===1?"":"s") + " uploaded" + (requiredDone>=requiredTotal ? " . Your nomination is complete. You may add optional material." : ""))
+    : "No required files for this award. Optional material may be uploaded below.";
+  $("p-bar").style.width = requiredTotal ? Math.round(100*requiredDone/requiredTotal) + "%" : "100%";
+
+  var host = $("p-slots");
+  host.innerHTML = "";
+  st.slots.forEach(function(s){
+    var f = filesBySlot[s.slot];
+    var row = document.createElement("div"); row.className = "slot";
+    var left = document.createElement("div");
+    var nm = document.createElement("span"); nm.className = "name"; nm.textContent = s.label;
+    var tag = document.createElement("span"); tag.className = "tag " + (s.required ? "required" : "optional"); tag.textContent = s.required ? "REQUIRED" : "OPTIONAL";
+    left.appendChild(nm); left.appendChild(tag);
+    var info = document.createElement("div");
+    if (f){ info.className = "fileinfo"; info.textContent = "Uploaded: " + (f.filename || "file") + (f.size ? " (" + Math.round(f.size/1024) + " KB)" : ""); }
+    else { info.className = "empty"; info.textContent = st.deadline_passed ? "Not submitted" : "Not uploaded yet"; }
+    left.appendChild(info);
+    row.appendChild(left);
+
+    var actions = document.createElement("div"); actions.className = "actions";
+    if (f){
+      var dl = document.createElement("button"); dl.className = "btn secondary"; dl.textContent = "View";
+      dl.onclick = function(){ api("nomination-files", { action:"download-url", token: currentToken, slot: s.slot }).then(function(r){ if (r.ok) window.open(r.download_url, "_blank"); }); };
+      actions.appendChild(dl);
+    }
+    if (!st.deadline_passed){
+      var up = document.createElement("button"); up.className = "btn"; up.textContent = f ? "Replace" : "Upload";
+      up.onclick = function(){ pickAndUpload(s.slot, up); };
+      actions.appendChild(up);
+      if (f){
+        var rm = document.createElement("button"); rm.className = "btn secondary"; rm.textContent = "Remove";
+        rm.onclick = function(){
+          if (!confirm("Remove this file?")) return;
+          api("nomination-files", { action:"delete-file", token: currentToken, slot: s.slot }).then(function(r){
+            if (r.ok) refreshPortal(); else showPErr("Could not remove the file.");
+          });
+        };
+        actions.appendChild(rm);
+      }
+    }
+    row.appendChild(actions);
+    host.appendChild(row);
+  });
+}
+
+function refreshPortal(){
+  api("nomination-files", { action:"state", token: currentToken }).then(function(res){
+    if (res.ok){ currentState = res; renderPortal(); }
+  });
+}
+
+function showPErr(msg){ var e = $("p-err"); e.textContent = msg; e.style.display = "block"; $("p-ok").style.display = "none"; window.scrollTo(0,0); }
+function showPOk(msg){ var e = $("p-ok"); e.textContent = msg; e.style.display = "block"; $("p-err").style.display = "none"; }
+
+function pickAndUpload(slot, btn){
+  var input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".pdf,.doc,.docx";
+  input.onchange = function(){
+    var file = input.files[0];
+    if (!file) return;
+    if (file.size > MAX_BYTES){ showPErr("That file is larger than 15MB. Please compress it and try again."); return; }
+    var ext = (file.name.split(".").pop() || "").toLowerCase();
+    if (["pdf","doc","docx"].indexOf(ext) < 0){ showPErr("Please upload a PDF or Word document."); return; }
+    var orig = btn.textContent; btn.disabled = true; btn.textContent = "Uploading...";
+    api("nomination-files", { action:"request-upload", token: currentToken, slot: slot, ext: ext }).then(function(r){
+      if (!r.ok) throw new Error(r.error || "request_failed");
+      return fetch(r.upload_url, {
+        method: "PUT",
+        headers: { "Content-Type": file.type || "application/octet-stream", "x-upsert": "true" },
+        body: file
+      }).then(function(putRes){
+        if (!putRes.ok) throw new Error("upload_failed");
+        return api("nomination-files", { action:"confirm-upload", token: currentToken, slot: slot, storage_path: r.storage_path, original_filename: file.name, file_size: file.size, content_type: file.type });
+      });
+    }).then(function(c){
+      if (!c.ok) throw new Error(c.error || "confirm_failed");
+      btn.disabled = false; btn.textContent = orig;
+      showPOk("File uploaded.");
+      refreshPortal();
+    }).catch(function(e){
+      btn.disabled = false; btn.textContent = orig;
+      showPErr(e.message === "deadline_passed" ? "The deadline has passed; uploads are closed." : "Upload failed. Please try again.");
+    });
+  };
+  input.click();
+}
+
+/* ---------- boot ---------- */
+var params = new URLSearchParams(window.location.search);
+var tok = params.get("t");
+renderLanding();
+if (tok) loadPortal(tok); else show("view-landing");
+</script>
+</body>
+</html>

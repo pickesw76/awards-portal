@@ -964,18 +964,35 @@
       }
     }
 
-    // Get a signed URL for INLINE display (iframe src, img src). No download attachment header.
-    // The `filename` arg is kept for cache-key clarity but is unused in the URL.
+    // Get a URL for INLINE display (iframe src, img src).
+    // Supabase Storage's signed URL endpoint returns Content-Disposition: attachment for all
+    // signed URLs (regardless of the `download` query param), which prevents browsers from
+    // rendering PDFs inline. Workaround: fetch the file, create a blob URL with the correct
+    // MIME type, and return that. Blob URLs bypass Content-Disposition entirely.
     async function getSignedDownloadUrl(storagePath, filename) {
       const cached = state.urlCache.get(storagePath);
       if (cached && cached.expiresAt > Date.now() + 60000) return cached.url;
-      // NOTE: We deliberately do NOT pass { download: filename } here — that would set
-      // Content-Disposition: attachment on the response, which prevents browsers from
-      // rendering the PDF inline in an iframe. For jury.html everything is inline display.
-      const { data, error } = await supabase.storage.from("submissions").createSignedUrl(storagePath, 900);
-      if (error) { console.warn("signed url failed for", storagePath, error); return null; }
-      state.urlCache.set(storagePath, { url: data.signedUrl, expiresAt: Date.now() + 900000 });
-      return data.signedUrl;
+      try {
+        const { data, error } = await supabase.storage.from("submissions").createSignedUrl(storagePath, 900);
+        if (error) { console.warn("signed url failed for", storagePath, error); return null; }
+        // Fetch the actual bytes and wrap in a fresh Blob with an explicit MIME type.
+        // The MIME type comes from the file extension since Supabase's blob may lose it.
+        const ext = (storagePath.split(".").pop() || "").toLowerCase();
+        const mimeType = ext === "pdf" ? "application/pdf"
+          : (ext === "jpg" || ext === "jpeg") ? "image/jpeg"
+          : (ext === "png") ? "image/png"
+          : "application/octet-stream";
+        const response = await fetch(data.signedUrl);
+        if (!response.ok) { console.warn("fetch failed", storagePath, response.status); return null; }
+        const rawBlob = await response.blob();
+        const typedBlob = new Blob([rawBlob], { type: mimeType });
+        const blobUrl = URL.createObjectURL(typedBlob);
+        state.urlCache.set(storagePath, { url: blobUrl, expiresAt: Date.now() + 900000 });
+        return blobUrl;
+      } catch (e) {
+        console.warn("getSignedDownloadUrl error for", storagePath, e);
+        return null;
+      }
     }
 
     function updatePrevNextButtons() {

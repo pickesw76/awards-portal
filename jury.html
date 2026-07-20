@@ -25,6 +25,187 @@
     header.topbar .lead-badge { background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.4); padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
     header.topbar .signout { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
     header.topbar .signout:hover { background: rgba(255,255,255,0.3); }
+    header.topbar .mode-toggle { background: #fff; color: var(--aia-red); border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: 0.3px; }
+    header.topbar .mode-toggle:hover { background: #ffe6e2; }
+
+    /* Deliberation Mode */
+    .delib-header { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 14px 18px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .delib-header h2 { margin: 0; color: var(--aia-red); font-size: 18px; }
+    .delib-header .delib-stats { display: flex; gap: 20px; font-size: 13px; color: #555; }
+    .delib-header .delib-stats strong { display: block; color: var(--aia-red); font-size: 18px; font-weight: 700; }
+    .delib-header .actions { display: flex; gap: 8px; }
+    .delib-header .btn { padding: 7px 14px; border-radius: 4px; border: 1px solid var(--border); background: #fff; cursor: pointer; font-size: 12px; font-weight: 600; }
+    .delib-header .btn.primary { background: var(--aia-red); color: #fff; border-color: var(--aia-red); }
+
+    table.delib-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    table.delib-table th, table.delib-table td { padding: 10px 12px; text-align: left; font-size: 13px; border-bottom: 1px solid #eee; vertical-align: middle; }
+    table.delib-table th { background: #f8f8f8; font-weight: 600; color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+    table.delib-table td.rank { font-weight: 700; color: var(--muted); text-align: right; padding-right: 14px; width: 40px; }
+    table.delib-table td.entry-num { font-weight: 700; color: var(--aia-red); font-size: 14px; width: 60px; }
+    table.delib-table td.avg-stars { font-weight: 700; text-align: center; width: 80px; }
+    table.delib-table td.avg-stars .value { font-size: 18px; color: var(--star); }
+    table.delib-table td.avg-stars .count { font-size: 10px; color: var(--muted); display: block; }
+    table.delib-table td.jurors { width: 220px; }
+    table.delib-table td.jurors .mini-stars { display: flex; gap: 3px; align-items: center; flex-wrap: wrap; }
+    table.delib-table td.jurors .juror-chip { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 11px; color: #555; display: inline-flex; align-items: center; gap: 3px; }
+    table.delib-table td.jurors .juror-chip .stars-inline { color: var(--star); font-size: 10px; letter-spacing: -1px; }
+    table.delib-table td.tag-cell { width: 160px; }
+    table.delib-table td.tag-cell select { padding: 5px 8px; border-radius: 4px; border: 1px solid var(--border); font-size: 12px; background: #fff; width: 100%; }
+    table.delib-table tr.tag-honor td.entry-num { background: linear-gradient(to right, rgba(46,125,50,0.15), transparent); }
+    table.delib-table tr.tag-merit td.entry-num { background: linear-gradient(to right, rgba(21,101,192,0.15), transparent); }
+    table.delib-table tr.tag-none td.entry-num { opacity: 0.6; }
+    table.delib-table tr { cursor: pointer; }
+    table.delib-table tr:hover { background: #fafafa; }
+
+    .rec-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; }
+    .rec-honor { background: #c8e6c9; color: #1b5e20; }
+    .rec-merit { background: #bbdefb; color: #0d47a1; }
+    .rec-cote { background: #e1bee7; color: #4a148c; }
+    .rec-none { background: #eeeeee; color: #666; }
+
+    /* COTE inline checkbox on delib table */
+    table.delib-table td.cote-cell { width: 90px; text-align: center; }
+    table.delib-table td.cote-cell input { cursor: pointer; }
+    table.delib-table td.cote-cell.disabled { color: #ccc; }
+    table.delib-table td.cote-cell.disabled input { visibility: hidden; }
+
+    /* Notes drill-down modal (lead only) */
+    .drill-modal { background: #fff; border-radius: 8px; max-width: 720px; width: 100%; max-height: 85vh; overflow-y: auto; }
+    .drill-modal .drill-header { background: var(--aia-red); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .drill-modal .drill-header h2 { margin: 0; font-size: 15px; }
+    .drill-modal .drill-body { padding: 20px; }
+    .drill-modal .drill-eval { padding: 12px 0; border-bottom: 1px solid #eee; }
+    .drill-modal .drill-eval:last-child { border-bottom: none; }
+    .drill-modal .drill-eval .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .drill-modal .drill-eval .who { font-weight: 600; color: #333; font-size: 13px; }
+    .drill-modal .drill-eval .when { font-size: 11px; color: var(--muted); }
+    .drill-modal .drill-eval .stars-inline { color: var(--star); font-size: 16px; letter-spacing: 1px; }
+    .drill-modal .drill-eval .drill-notes { font-size: 13px; color: #444; white-space: pre-wrap; line-height: 1.5; padding: 8px 12px; background: #f8f8f8; border-left: 3px solid var(--aia-red); border-radius: 3px; margin-top: 6px; }
+    .drill-modal .drill-eval .drill-notes.empty { color: #aaa; font-style: italic; border-left-color: #ddd; background: #fafafa; }
+
+    /* Projection footer tagging */
+    .projection-footer .p-tag { display: flex; gap: 8px; align-items: center; color: #fff; font-size: 13px; }
+    .projection-footer .p-tag select { padding: 6px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.15); color: #fff; font-size: 13px; }
+    .projection-footer .p-tag select option { color: #333; }
+    .projection-footer .p-tag label { color: #ccc; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; }
+
+    /* Results view */
+    .results-section { background: #fff; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 16px; overflow: hidden; }
+    .results-section h3 { margin: 0; padding: 12px 18px; background: #f8f8f8; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+    .results-section h3.honor { background: #e8f5e9; color: #1b5e20; }
+    .results-section h3.merit { background: #e3f2fd; color: #0d47a1; }
+    .results-section h3.cote { background: #f3e5f5; color: #4a148c; }
+    .results-section h3.none { background: #f5f5f5; color: #666; }
+    .results-section h3.undecided { background: #fff3cd; color: var(--warn); }
+    .results-section ul { list-style: none; padding: 0; margin: 0; }
+    .results-section li { padding: 10px 18px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .results-section li:last-child { border-bottom: none; }
+    .results-section li .r-num { background: var(--aia-red); color: #fff; padding: 2px 8px; border-radius: 3px; font-weight: 700; font-size: 12px; margin-right: 10px; }
+    .results-section li .r-avg { color: var(--star); font-size: 12px; margin-left: 8px; }
+
+    /* Delib detail modal - lead-only extras */
+    .delib-detail-sidebar { padding: 16px 20px; border-left: 1px solid var(--border); background: #fafafa; overflow-y: auto; }
+    .delib-detail-sidebar h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 0 0 8px 0; font-weight: 600; }
+    .delib-detail-sidebar .all-evals { margin-top: 16px; }
+    .delib-detail-sidebar .all-evals .eval-row { padding: 10px 0; border-bottom: 1px solid #eee; }
+    .delib-detail-sidebar .all-evals .eval-row:last-child { border-bottom: none; }
+    .delib-detail-sidebar .all-evals .eval-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .delib-detail-sidebar .all-evals .eval-juror { font-size: 12px; font-weight: 600; color: #444; }
+    .delib-detail-sidebar .all-evals .eval-stars { color: var(--star); font-size: 14px; }
+    .delib-detail-sidebar .all-evals .eval-notes { font-size: 12px; color: #555; white-space: pre-wrap; line-height: 1.4; margin-top: 4px; padding: 6px 8px; background: #fff; border-left: 3px solid var(--border); border-radius: 2px; }
+    .delib-detail-sidebar .all-evals .eval-notes.empty { color: #aaa; font-style: italic; border-left-color: #eee; }
+    .delib-detail-sidebar .rec-selector { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px solid var(--aia-red); }
+    .delib-detail-sidebar .rec-selector label { display: flex; align-items: center; gap: 8px; padding: 6px 10px; margin-bottom: 4px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+    .delib-detail-sidebar .rec-selector label:hover { background: #f0f0f0; }
+    .delib-detail-sidebar .rec-selector input[type="radio"] { margin: 0; }
+    .delib-detail-sidebar .rec-selector .cote-check { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 6px 10px; background: #f5edf7; border-radius: 4px; font-size: 12px; }
+
+    /* Projection mode - fullscreen single entry for meeting */
+    .projection { position: fixed; inset: 0; background: #1a1a1a; color: #fff; display: none; flex-direction: column; z-index: 300; }
+    .projection.open { display: flex; }
+    .projection-header { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; background: var(--aia-red); }
+    .projection-header .p-entry { background: #fff; color: var(--aia-red); font-weight: 700; padding: 6px 14px; border-radius: 4px; font-size: 15px; }
+    .projection-header h2 { margin: 0; font-size: 22px; }
+    .projection-header .p-cats { font-size: 13px; opacity: 0.9; }
+    .projection-header .p-close { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+    .projection-body { flex: 1; display: flex; overflow: hidden; }
+    .projection-board { flex: 3; padding: 20px; overflow: hidden; }
+    .projection-board iframe { width: 100%; height: 100%; border: none; background: #fff; }
+    .projection-sidebar { flex: 1; padding: 20px; background: #2a2a2a; overflow-y: auto; }
+    .projection-sidebar h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: #aaa; margin: 0 0 8px 0; }
+    .projection-sidebar .proj-images { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+    .projection-sidebar .proj-images img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 3px; cursor: pointer; }
+    .projection-sidebar .proj-stars { font-size: 32px; color: var(--star); }
+    .projection-sidebar .proj-avg { font-size: 14px; color: #ccc; margin-top: 4px; }
+    .projection-footer { padding: 12px 24px; background: #111; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .projection-footer .p-nav { display: flex; gap: 8px; }
+    .projection-footer .p-nav button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+    .projection-footer .p-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .projection-footer .p-kbd { color: #888; font-size: 11px; }
+
+    /* Compare mode */
+    table.entries td.check-cell { width: 30px; }
+    table.entries td.check-cell input[type="checkbox"] { cursor: pointer; width: 16px; height: 16px; }
+    table.entries tr.selected { background: rgba(231,76,60,0.06); }
+    table.entries tr.selected:hover { background: rgba(231,76,60,0.1); }
+
+    .compare-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--aia-red); color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 -4px 12px rgba(0,0,0,0.15); z-index: 50; transform: translateY(100%); transition: transform 0.2s ease; }
+    .compare-bar.open { transform: translateY(0); }
+    .compare-bar .count { font-size: 14px; font-weight: 600; }
+    .compare-bar .actions { display: flex; gap: 10px; align-items: center; }
+    .compare-bar .actions .btn { padding: 8px 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.15); color: #fff; font-size: 13px; cursor: pointer; font-weight: 600; }
+    .compare-bar .actions .btn.primary { background: #fff; color: var(--aia-red); border-color: #fff; }
+    .compare-bar .actions .btn.primary:hover { background: #ffe6e2; }
+    .compare-bar .actions .btn:hover { background: rgba(255,255,255,0.25); }
+    .compare-bar .hint { font-size: 11px; opacity: 0.85; }
+
+    /* Compare view */
+    .compare-overlay { position: fixed; inset: 0; background: #f4f4f6; display: none; flex-direction: column; z-index: 250; }
+    .compare-overlay.open { display: flex; }
+    .compare-header { background: var(--aia-red); color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .compare-header h2 { margin: 0; font-size: 16px; }
+    .compare-header .c-close { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .compare-body { flex: 1; overflow: auto; padding: 16px; }
+    .compare-grid { display: grid; gap: 14px; height: 100%; }
+    .compare-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .compare-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .compare-grid.cols-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .compare-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; overflow: hidden; }
+    .compare-card .cc-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .compare-card .cc-num { background: var(--aia-red); color: #fff; padding: 3px 8px; border-radius: 3px; font-size: 12px; font-weight: 700; }
+    .compare-card .cc-title { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+    .compare-card .cc-stars { font-size: 12px; color: var(--star); flex-shrink: 0; }
+    .compare-card iframe { flex: 1; width: 100%; border: none; background: #eee; border-radius: 3px; min-height: 240px; }
+    .compare-card .cc-empty { flex: 1; display: flex; align-items: center; justify-content: center; background: #f0f0f0; color: var(--muted); font-size: 12px; border-radius: 3px; }
+
+    /* Shortcuts help overlay */
+    .shortcuts-help { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 400; }
+    .shortcuts-help.open { display: flex; }
+    .shortcuts-help .card { background: #fff; border-radius: 8px; padding: 24px 28px; max-width: 480px; }
+    .shortcuts-help h3 { margin: 0 0 14px 0; color: var(--aia-red); font-size: 16px; }
+    .shortcuts-help table { width: 100%; font-size: 13px; }
+    .shortcuts-help td { padding: 6px 0; }
+    .shortcuts-help td.k { font-family: "SF Mono", Menlo, monospace; color: #444; }
+    .shortcuts-help td.k kbd { background: #f0f0f0; padding: 2px 7px; border-radius: 3px; border: 1px solid #ddd; font-family: inherit; }
+    .shortcuts-help .close-hint { text-align: center; margin-top: 14px; font-size: 12px; color: var(--muted); }
+
+    /* Mobile responsive */
+    @media (max-width: 700px) {
+      header.topbar { padding: 12px 14px; }
+      header.topbar h1 { font-size: 14px; }
+      .wrap { padding: 12px; }
+      table.entries { display: block; overflow-x: auto; }
+      table.entries th, table.entries td { white-space: nowrap; }
+      .modal { max-height: calc(100vh - 16px); }
+      .modal-header { padding: 10px 14px; }
+      .modal-header h2 { font-size: 13px; }
+      .modal-header .h-cats { display: none; }
+      .board-viewer iframe { height: 400px; }
+      .review-sidebar { border-left: none; border-top: 1px solid var(--border); }
+      .compare-grid.cols-2, .compare-grid.cols-3, .compare-grid.cols-4 { grid-template-columns: 1fr; grid-template-rows: none; }
+      .compare-card iframe { min-height: 300px; }
+      .filters { font-size: 12px; }
+    }
 
     .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 16px 60px; }
     .anonymous-banner { background: #fff3cd; border: 1px solid #ffc107; border-left: 4px solid #ffc107; color: var(--warn); padding: 10px 14px; border-radius: 4px; font-size: 13px; margin-bottom: 16px; }
@@ -168,6 +349,7 @@
       <div class="progress-mini" id="progressMini" style="display:none;"></div>
     </div>
     <div class="user-info" id="userInfo" style="display:none;">
+      <button class="mode-toggle" id="modeToggle" style="display:none;">→ Deliberation Mode</button>
       <span id="leadBadge" class="lead-badge" style="display:none;">JURY LEAD</span>
       <span id="userEmail"></span>
       <button class="signout" id="signoutBtn">Sign out</button>
@@ -202,6 +384,115 @@
     </div>
   </div>
 
+  <!-- Notes drill-down modal (lead only) -->
+  <div class="modal-overlay" id="drillOverlay">
+    <div class="drill-modal">
+      <div class="drill-header">
+        <h2 id="drillTitle">Entry evaluations</h2>
+        <button class="close" id="drillClose" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">&times;</button>
+      </div>
+      <div class="drill-body" id="drillBody"></div>
+    </div>
+  </div>
+
+  <!-- Compare bar (docked at bottom when entries are selected) -->
+  <div class="compare-bar" id="compareBar">
+    <div class="count" id="compareCount">0 selected</div>
+    <div class="hint">Pick 2–4 entries to compare side-by-side</div>
+    <div class="actions">
+      <button class="btn" id="compareClear">Clear</button>
+      <button class="btn primary" id="compareOpen">Compare →</button>
+    </div>
+  </div>
+
+  <!-- Compare fullscreen overlay -->
+  <div class="compare-overlay" id="compareOverlay">
+    <div class="compare-header">
+      <h2 id="compareTitle">Comparing entries</h2>
+      <button class="c-close" id="compareClose">✕ Close (Esc)</button>
+    </div>
+    <div class="compare-body">
+      <div id="compareGrid" class="compare-grid cols-2"></div>
+    </div>
+  </div>
+
+  <!-- Shortcuts help overlay -->
+  <div class="shortcuts-help" id="shortcutsHelp">
+    <div class="card">
+      <h3>Keyboard shortcuts</h3>
+      <p style="font-size:11px; color:var(--muted); margin:0 0 12px 0; text-transform:uppercase; letter-spacing:0.5px;">Entry detail</p>
+      <table>
+        <tr><td class="k"><kbd>←</kbd> / <kbd>→</kbd></td><td>Previous / next entry</td></tr>
+        <tr><td class="k"><kbd>Esc</kbd></td><td>Close current view</td></tr>
+        <tr><td class="k"><kbd>1</kbd>–<kbd>5</kbd></td><td>Set your star rating</td></tr>
+        <tr><td class="k"><kbd>0</kbd></td><td>Clear your star rating</td></tr>
+        <tr><td class="k"><kbd>F</kbd></td><td>Open board fullscreen (new tab)</td></tr>
+      </table>
+      <p style="font-size:11px; color:var(--muted); margin:14px 0 8px 0; text-transform:uppercase; letter-spacing:0.5px;">Projection mode (lead only)</p>
+      <table>
+        <tr><td class="k"><kbd>H</kbd></td><td>Tag as Honor Award</td></tr>
+        <tr><td class="k"><kbd>M</kbd></td><td>Tag as Merit Award</td></tr>
+        <tr><td class="k"><kbd>N</kbd></td><td>Tag as No Award</td></tr>
+        <tr><td class="k"><kbd>C</kbd></td><td>Toggle COTE recognition (if opted in)</td></tr>
+        <tr><td class="k"><kbd>X</kbd></td><td>Clear tag</td></tr>
+      </table>
+      <p style="font-size:11px; color:var(--muted); margin:14px 0 8px 0; text-transform:uppercase; letter-spacing:0.5px;">Anywhere</p>
+      <table>
+        <tr><td class="k"><kbd>?</kbd></td><td>Show this help</td></tr>
+      </table>
+      <p class="close-hint">Click anywhere to close</p>
+    </div>
+  </div>
+
+  <!-- Projection Mode (fullscreen for meeting) -->
+  <div class="projection" id="projection">
+    <div class="projection-header">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <span class="p-entry" id="pEntry">Entry #—</span>
+        <div>
+          <h2 id="pTitle">Project Title</h2>
+          <div class="p-cats" id="pCats"></div>
+        </div>
+      </div>
+      <button class="p-close" id="pClose">Exit Projection (Esc)</button>
+    </div>
+    <div class="projection-body">
+      <div class="projection-board" id="pBoardWrap"></div>
+      <div class="projection-sidebar">
+        <h3>Anonymous Rating</h3>
+        <div class="proj-stars" id="pStars">☆☆☆☆☆</div>
+        <div class="proj-avg" id="pAvg"></div>
+        <h3 style="margin-top:24px;">Project Images</h3>
+        <div class="proj-images" id="pImages"></div>
+        <h3 id="pRecLabel" style="display:none;">Current Recommendation</h3>
+        <div id="pRec"></div>
+      </div>
+    </div>
+    <div class="projection-footer">
+      <div style="display:flex; gap:20px; align-items:center;">
+        <div class="p-tag">
+          <label>Tag:</label>
+          <select id="pTagSelect">
+            <option value="">— none —</option>
+            <option value="honor">Honor Award</option>
+            <option value="merit">Merit Award</option>
+            <option value="none">No Award</option>
+          </select>
+          <label id="pCoteWrap" style="display:none;">
+            <input type="checkbox" id="pCoteCheck" style="margin:0;" />
+            <span>COTE-recognized</span>
+          </label>
+        </div>
+        <span class="p-kbd">←/→ nav · H=Honor · M=Merit · N=None · Esc=exit</span>
+      </div>
+      <div id="pRankInfo" style="color:#aaa;"></div>
+      <div class="p-nav">
+        <button id="pPrev">← Previous</button>
+        <button id="pNext">Next →</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Image lightbox -->
   <div class="lightbox" id="lightbox">
     <button class="lb-close" id="lbClose">&times;</button>
@@ -227,7 +518,14 @@
       // in-memory cache of signed download URLs { path -> {url, expiresAt} }
       urlCache: new Map(),
       isLead: false,
-      userEmail: ""
+      userEmail: "",
+      // Deliberation Mode
+      mode: "review",                // 'review' | 'deliberation'
+      aggregate: [],                 // lead-only: aggregate ranking data
+      projectionIdx: 0,              // index into aggregate for projection mode
+      projectionCurrentUrls: null,   // {board, images:[]} for current projection entry
+      // Compare Mode
+      selectedForCompare: new Set()  // set of submission_id
     };
 
     function escapeHtml(s) { return String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
@@ -300,6 +598,7 @@
         <table class="entries">
           <thead>
             <tr>
+              <th class="check-cell" title="Select for compare"></th>
               <th style="width:60px;">Entry</th>
               <th>Project</th>
               <th>Categories</th>
@@ -313,15 +612,17 @@
             ${filtered.map(e => renderRow(e)).join("")}
           </tbody>
         </table>
+        <p style="font-size:12px; color:var(--muted); margin-top:12px;">Tip: press <kbd style="background:#f0f0f0;padding:1px 5px;border-radius:2px;border:1px solid #ddd;">?</kbd> for keyboard shortcuts.</p>
       `;
       document.getElementById("filterCategory").value = state.filterCategory;
       document.getElementById("filterCategory").addEventListener("change", e => { state.filterCategory = e.target.value; renderLanding(); });
       document.getElementById("filterUnrated").addEventListener("change", e => { state.filterUnratedOnly = e.target.checked; renderLanding(); });
 
-      // Wire row clicks + inline star ratings
+      // Wire row clicks + inline star ratings + compare checkboxes
       document.querySelectorAll("tr[data-entry-id]").forEach(tr => {
         tr.addEventListener("click", (ev) => {
-          if (ev.target.closest(".stars")) return; // don't open modal when clicking stars
+          if (ev.target.closest(".stars")) return;
+          if (ev.target.matches("input[type='checkbox']")) return;
           openDetail(tr.dataset.entryId);
         });
       });
@@ -335,6 +636,25 @@
           renderLanding();
         });
       });
+      document.querySelectorAll("input[data-compare-check]").forEach(cb => {
+        cb.addEventListener("change", (ev) => {
+          const id = cb.dataset.compareCheck;
+          if (cb.checked) {
+            if (state.selectedForCompare.size >= 4) {
+              toast("Compare max is 4 entries", "error");
+              cb.checked = false;
+              return;
+            }
+            state.selectedForCompare.add(id);
+          } else {
+            state.selectedForCompare.delete(id);
+          }
+          updateCompareBar();
+          // Update row highlight without full re-render
+          cb.closest("tr").classList.toggle("selected", cb.checked);
+        });
+      });
+      updateCompareBar();
     }
 
     function renderRow(e) {
@@ -347,8 +667,11 @@
         ? '<span class="badge badge-no-files">No files</span>'
         : `${e.reviewable_file_count} / 7`;
       const notesIndicator = e.my_notes ? "📝" : "";
-      const rowClass = e.my_stars ? "rated" : "";
+      const rated = e.my_stars ? "rated" : "";
+      const isSelected = state.selectedForCompare.has(e.id);
+      const rowClass = `${rated} ${isSelected ? "selected" : ""}`.trim();
       return `<tr data-entry-id="${e.id}" class="${rowClass}">
+        <td class="check-cell"><input type="checkbox" data-compare-check="${e.id}" ${isSelected ? "checked" : ""} /></td>
         <td class="num">${ee}</td>
         <td class="title">${escapeHtml(e.project_title)}</td>
         <td class="cats">${cats}</td>
@@ -358,6 +681,65 @@
         <td class="notes-indicator" title="${e.my_notes ? 'You have notes' : ''}">${notesIndicator}</td>
       </tr>`;
     }
+
+    // ------- Compare mode -------
+    function updateCompareBar() {
+      const bar = document.getElementById("compareBar");
+      const count = state.selectedForCompare.size;
+      document.getElementById("compareCount").textContent = `${count} selected`;
+      document.getElementById("compareOpen").disabled = count < 2;
+      if (count > 0) bar.classList.add("open"); else bar.classList.remove("open");
+    }
+    document.getElementById("compareClear").addEventListener("click", () => {
+      state.selectedForCompare.clear();
+      renderLanding();
+    });
+    document.getElementById("compareOpen").addEventListener("click", () => openCompare());
+
+    async function openCompare() {
+      if (state.selectedForCompare.size < 2) { toast("Select at least 2 entries first", "error"); return; }
+      const ids = Array.from(state.selectedForCompare);
+      const grid = document.getElementById("compareGrid");
+      grid.className = `compare-grid cols-${Math.min(ids.length, 4)}`;
+      grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--muted);">Loading entries…</div>`;
+      document.getElementById("compareTitle").textContent = `Comparing ${ids.length} entries`;
+      document.getElementById("compareOverlay").classList.add("open");
+
+      // Load each entry's detail in parallel
+      const results = await Promise.all(ids.map(async id => {
+        const listEntry = state.entries.find(e => e.id === id);
+        const { data } = await supabase.rpc("jury_get_submission", { p_id: id });
+        if (!data) return null;
+        const board = (data.files || []).find(f => f.file_slot === "board");
+        const boardUrl = board ? await getSignedDownloadUrl(board.storage_path, `${pad2(data.entry_number)}-Board.pdf`) : null;
+        return { detail: data, boardUrl, myStars: listEntry?.my_stars ?? null };
+      }));
+
+      grid.innerHTML = results.filter(Boolean).map(r => {
+        const ee = pad2(r.detail.entry_number);
+        const starDisplay = r.myStars ? "★".repeat(r.myStars) + "☆".repeat(5 - r.myStars) : "☆☆☆☆☆";
+        return `<div class="compare-card">
+          <div class="cc-header">
+            <span class="cc-num">#${ee}</span>
+            <span class="cc-title" title="${escapeHtml(r.detail.project_title)}">${escapeHtml(r.detail.project_title)}</span>
+            <span class="cc-stars" title="Your rating">${starDisplay}</span>
+          </div>
+          ${r.boardUrl
+            ? `<iframe src="${r.boardUrl}#toolbar=0&navpanes=0" title="Board ${ee}"></iframe>`
+            : `<div class="cc-empty">Board not uploaded</div>`}
+        </div>`;
+      }).join("");
+    }
+    function closeCompare() { document.getElementById("compareOverlay").classList.remove("open"); }
+    document.getElementById("compareClose").addEventListener("click", closeCompare);
+    document.getElementById("compareOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "compareOverlay") closeCompare();
+    });
+
+    // ------- Shortcuts help -------
+    document.getElementById("shortcutsHelp").addEventListener("click", () => {
+      document.getElementById("shortcutsHelp").classList.remove("open");
+    });
 
     // ------- Star rating widget -------
     function starsHtml(value, opts = {}) {
@@ -571,21 +953,79 @@
     });
 
     // Global keyboard shortcuts
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", async (e) => {
       const overlay = document.getElementById("modalOverlay");
       const lightbox = document.getElementById("lightbox");
+      const compare = document.getElementById("compareOverlay");
+      const help = document.getElementById("shortcutsHelp");
       const inInput = document.activeElement && ["INPUT","TEXTAREA"].includes(document.activeElement.tagName);
+
+      // ? for help — works anywhere except while typing
+      if (e.key === "?" && !inInput) {
+        help.classList.add("open");
+        return;
+      }
+
+      if (help.classList.contains("open")) {
+        if (e.key === "Escape") help.classList.remove("open");
+        return;
+      }
       if (lightbox.classList.contains("open")) {
         if (e.key === "Escape") closeLightbox();
         if (e.key === "ArrowLeft") lightboxNav(-1);
         if (e.key === "ArrowRight") lightboxNav(1);
         return;
       }
+      if (compare.classList.contains("open")) {
+        if (e.key === "Escape") closeCompare();
+        return;
+      }
       if (!overlay.classList.contains("open")) return;
-      if (inInput) return; // don't hijack arrow keys while typing notes
-      if (e.key === "Escape") closeModal();
-      if (e.key === "ArrowLeft") navPrev();
-      if (e.key === "ArrowRight") navNext();
+
+      if (e.key === "Escape") { closeModal(); return; }
+
+      // Don't hijack when typing notes
+      if (inInput) return;
+
+      // Arrow keys navigate entries
+      if (e.key === "ArrowLeft") { navPrev(); return; }
+      if (e.key === "ArrowRight") { navNext(); return; }
+
+      // Number keys 1-5 set rating; 0 clears
+      if (["1","2","3","4","5","0"].includes(e.key) && state.currentEntryId) {
+        e.preventDefault();
+        const rating = e.key === "0" ? null : Number(e.key);
+        const statusEl = document.getElementById("starSaveStatus");
+        try {
+          const notes = document.getElementById("myNotes")?.value ?? "";
+          if (statusEl) { statusEl.className = "save-status saving"; statusEl.textContent = "saving…"; }
+          await supabase.rpc("jury_set_evaluation", { p_submission_id: state.currentEntryId, p_stars: rating, p_notes: notes });
+          const container = document.getElementById("starRatingContainer");
+          if (container) {
+            container.innerHTML = starsHtml(rating, { big: true });
+            wireStars(container.querySelector(".stars"), async (r) => {
+              await supabase.rpc("jury_set_evaluation", { p_submission_id: state.currentEntryId, p_stars: r, p_notes: document.getElementById("myNotes")?.value ?? "" });
+              container.innerHTML = starsHtml(r, { big: true });
+              const le = state.entries.find(x => x.id === state.currentEntryId);
+              if (le) le.my_stars = r;
+            });
+          }
+          if (statusEl) { statusEl.className = "save-status saved"; statusEl.textContent = "✓ saved"; setTimeout(() => statusEl.textContent = "", 2000); }
+          const le = state.entries.find(x => x.id === state.currentEntryId);
+          if (le) le.my_stars = rating;
+          toast(rating ? `Rated ${rating} star${rating===1?"":"s"}` : "Rating cleared", "success");
+        } catch (err) {
+          toast("Could not save: " + (err.message || err), "error");
+        }
+        return;
+      }
+
+      // F: open board in new tab (fullscreen)
+      if (e.key === "f" || e.key === "F") {
+        const fs = document.getElementById("fsBoard");
+        if (fs) fs.click();
+        return;
+      }
     });
 
     // ------- Image lightbox -------
@@ -636,8 +1076,446 @@
         const { data } = await supabase.rpc("is_jury_lead");
         state.isLead = data === true;
         document.getElementById("leadBadge").style.display = state.isLead ? "inline-block" : "none";
+        document.getElementById("modeToggle").style.display = state.isLead ? "inline-block" : "none";
       } catch (e) { state.isLead = false; }
     }
+
+    // ------- Deliberation Mode -------
+    async function loadAggregate() {
+      const { data, error } = await supabase.rpc("jury_lead_aggregate");
+      if (error) {
+        toast("Could not load deliberation data: " + error.message, "error");
+        return false;
+      }
+      state.aggregate = data || [];
+      return true;
+    }
+
+    function renderDeliberation() {
+      const total = state.aggregate.length;
+      const honor = state.aggregate.filter(e => e.final_recommendation === "honor").length;
+      const merit = state.aggregate.filter(e => e.final_recommendation === "merit").length;
+      const cote = state.aggregate.filter(e => e.is_cote_recognized).length;
+      const decided = state.aggregate.filter(e => e.final_recommendation).length;
+
+      const filterTag = state.delibFilter || "all";
+      const filtered = state.aggregate.filter(e => {
+        if (filterTag === "all") return true;
+        if (filterTag === "undecided") return !e.final_recommendation;
+        if (filterTag === "cote") return e.is_cote_recognized;
+        return e.final_recommendation === filterTag;
+      });
+
+      document.getElementById("app").innerHTML = `
+        <div class="delib-header">
+          <div style="min-width:200px;">
+            <h2>Deliberation Mode</h2>
+            <p style="margin:2px 0 0 0; color:var(--muted); font-size:13px;">Ranked by average stars. Tag Honor / Merit / None. COTE is independent.</p>
+          </div>
+          <div class="delib-stats">
+            <div><strong>${total}</strong>Total</div>
+            <div><strong>${honor}</strong>Honor</div>
+            <div><strong>${merit}</strong>Merit</div>
+            <div><strong>${cote}</strong>COTE</div>
+            <div><strong>${decided}/${total}</strong>Decided</div>
+          </div>
+          <div class="actions">
+            <select id="delibFilter" style="padding:6px 10px; border-radius:4px; border:1px solid var(--border); font-size:12px;">
+              <option value="all" ${filterTag==="all"?"selected":""}>Show all</option>
+              <option value="undecided" ${filterTag==="undecided"?"selected":""}>Undecided only</option>
+              <option value="honor" ${filterTag==="honor"?"selected":""}>Honor only</option>
+              <option value="merit" ${filterTag==="merit"?"selected":""}>Merit only</option>
+              <option value="none" ${filterTag==="none"?"selected":""}>No Award only</option>
+              <option value="cote" ${filterTag==="cote"?"selected":""}>COTE recognized</option>
+            </select>
+            <button class="btn" id="viewResultsBtn">📋 Results</button>
+            <button class="btn primary" id="startProjBtn">▶ Start Projection</button>
+          </div>
+        </div>
+        <table class="delib-table">
+          <thead>
+            <tr>
+              <th class="rank">#</th>
+              <th style="width:60px;">Entry</th>
+              <th>Project</th>
+              <th class="avg-stars">Avg</th>
+              <th>Juror scores</th>
+              <th style="width:140px;">Tag</th>
+              <th style="width:90px;" title="Only for entries that opted into COTE">COTE</th>
+            </tr>
+          </thead>
+          <tbody id="delibBody">
+            ${filtered.length === 0
+              ? `<tr><td colspan="7" style="text-align:center; padding:40px; color:var(--muted);">No entries match the filter.</td></tr>`
+              : filtered.map((e) => {
+                  const rank = state.aggregate.findIndex(x => x.id === e.id) + 1;
+                  return renderDelibRow(e, rank - 1);
+                }).join("")}
+          </tbody>
+        </table>
+        <p style="font-size:12px; color:var(--muted); margin-top:12px;">Click a row to open Projection Mode starting at that entry. Click juror scores to see notes.</p>
+      `;
+
+      // Wire clicks
+      document.getElementById("startProjBtn").addEventListener("click", () => startProjection(0));
+      document.getElementById("viewResultsBtn").addEventListener("click", renderResults);
+      document.getElementById("delibFilter").addEventListener("change", (ev) => {
+        state.delibFilter = ev.target.value;
+        renderDeliberation();
+      });
+      document.querySelectorAll("tr[data-agg-id]").forEach(tr => {
+        tr.addEventListener("click", (ev) => {
+          if (ev.target.tagName === "SELECT" || ev.target.tagName === "INPUT" || ev.target.closest(".jurors-drill")) return;
+          const id = tr.dataset.aggId;
+          const idx = state.aggregate.findIndex(e => e.id === id);
+          if (idx >= 0) startProjection(idx);
+        });
+      });
+      document.querySelectorAll("select[data-tag-for]").forEach(sel => {
+        sel.addEventListener("change", async () => {
+          const id = sel.dataset.tagFor;
+          const value = sel.value || null;
+          await saveTag(id, value, null);
+        });
+      });
+      document.querySelectorAll("input[data-cote-for]").forEach(cb => {
+        cb.addEventListener("change", async () => {
+          const id = cb.dataset.coteFor;
+          await saveTag(id, "__skip__", cb.checked);
+        });
+      });
+      document.querySelectorAll(".jurors-drill").forEach(el => {
+        el.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          const id = el.dataset.drillFor;
+          openDrillDown(id);
+        });
+      });
+    }
+
+    async function saveTag(id, recommendation, coteChecked) {
+      try {
+        const params = { p_submission_id: id, p_lead_notes: null };
+        params.p_recommendation = recommendation === "__skip__" ? "__skip__" : recommendation;
+        params.p_is_cote_recognized = coteChecked;
+        const { error } = await supabase.rpc("jury_lead_set_recommendation", params);
+        if (error) throw error;
+        const item = state.aggregate.find(e => e.id === id);
+        if (item) {
+          if (recommendation !== "__skip__") item.final_recommendation = recommendation;
+          if (coteChecked !== null) item.is_cote_recognized = coteChecked;
+        }
+        renderDeliberation();
+      } catch (e) {
+        toast("Could not save: " + (e.message || e), "error");
+      }
+    }
+
+    function renderDelibRow(e, i) {
+      const rec = e.final_recommendation;
+      const rowClass = rec === "honor" ? "tag-honor" : rec === "merit" ? "tag-merit" : rec === "none" ? "tag-none" : "";
+      const ee = pad2(e.entry_number);
+      const avg = e.avg_stars ? Number(e.avg_stars).toFixed(2) : "—";
+      const scoredBy = e.scored_by_count || 0;
+      const evals = e.individual_evaluations || [];
+      const jurorChips = evals.map(ev => {
+        const label = (ev.juror || "").split("@")[0];
+        const noteIcon = ev.notes ? " 📝" : "";
+        return `<span class="juror-chip" title="${escapeHtml(ev.juror)}${ev.notes ? ' — has notes' : ''}">${escapeHtml(label)}<span class="stars-inline">${"★".repeat(ev.stars||0)}</span>${noteIcon}</span>`;
+      }).join("");
+      const isCote = e.is_cote_recognized;
+      // Show COTE checkbox only for entries that opted into COTE
+      const coteCell = e.cote_award
+        ? `<td class="cote-cell"><input type="checkbox" data-cote-for="${e.id}" ${isCote ? "checked" : ""} /></td>`
+        : `<td class="cote-cell disabled" title="Firm did not opt into COTE"><input type="checkbox" disabled /></td>`;
+      const coteBadge = isCote ? '<span class="badge badge-cote">COTE ✓</span>' : (e.cote_award ? '<span class="badge badge-no-files" style="opacity:.6;">COTE opt-in</span>' : "");
+      return `<tr data-agg-id="${e.id}" class="${rowClass}">
+        <td class="rank">${i + 1}</td>
+        <td class="entry-num">${ee}</td>
+        <td>${escapeHtml(e.project_title)} ${coteBadge}</td>
+        <td class="avg-stars"><span class="value">${avg}</span><span class="count">${scoredBy} juror${scoredBy===1?"":"s"}</span></td>
+        <td class="jurors jurors-drill" data-drill-for="${e.id}" style="cursor:pointer;" title="Click to view notes"><div class="mini-stars">${jurorChips || '<span style="color:var(--muted);font-size:11px;">Not yet rated</span>'}</div></td>
+        <td class="tag-cell">
+          <select data-tag-for="${e.id}">
+            <option value="">— pick —</option>
+            <option value="honor" ${rec==="honor"?"selected":""}>Honor Award</option>
+            <option value="merit" ${rec==="merit"?"selected":""}>Merit Award</option>
+            <option value="none" ${rec==="none"?"selected":""}>No Award</option>
+          </select>
+        </td>
+        ${coteCell}
+      </tr>`;
+    }
+
+    // ------- Drill-down modal (lead only) — see all jurors' notes for an entry -------
+    async function openDrillDown(submissionId) {
+      const overlay = document.getElementById("drillOverlay");
+      const body = document.getElementById("drillBody");
+      const titleEl = document.getElementById("drillTitle");
+      const entry = state.aggregate.find(e => e.id === submissionId);
+      titleEl.textContent = entry ? `Entry #${pad2(entry.entry_number)} — ${entry.project_title}` : "Entry evaluations";
+      body.innerHTML = `<div class="loading"><div class="spinner"></div><p>Loading…</p></div>`;
+      overlay.classList.add("open");
+      try {
+        const { data, error } = await supabase.rpc("jury_lead_get_entry_evaluations", { p_submission_id: submissionId });
+        if (error) throw error;
+        const evals = data.evaluations || [];
+        if (evals.length === 0) {
+          body.innerHTML = `<p style="color:var(--muted); text-align:center; padding:20px;">No jurors have rated this entry yet.</p>`;
+          return;
+        }
+        body.innerHTML = evals.map(ev => {
+          const stars = "★".repeat(ev.stars||0) + "☆".repeat(5 - (ev.stars||0));
+          const when = new Date(ev.updated_at).toLocaleString();
+          return `<div class="drill-eval">
+            <div class="row">
+              <span class="who">${escapeHtml(ev.juror_email)}</span>
+              <span class="when">Updated ${escapeHtml(when)}</span>
+            </div>
+            <div class="row">
+              <span class="stars-inline">${stars}</span>
+              <span style="color:var(--muted); font-size:12px;">${ev.stars ? `${ev.stars} star${ev.stars===1?"":"s"}` : "no rating"}</span>
+            </div>
+            <div class="drill-notes ${ev.notes ? "" : "empty"}">${ev.notes ? escapeHtml(ev.notes) : "(no notes)"}</div>
+          </div>`;
+        }).join("");
+      } catch (e) {
+        body.innerHTML = `<p style="color:var(--error);">Error: ${escapeHtml(e.message)}</p>`;
+      }
+    }
+    document.getElementById("drillClose").addEventListener("click", () => document.getElementById("drillOverlay").classList.remove("open"));
+    document.getElementById("drillOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "drillOverlay") document.getElementById("drillOverlay").classList.remove("open");
+    });
+
+    // ------- Results view (lead only) -------
+    function renderResults() {
+      const honor = state.aggregate.filter(e => e.final_recommendation === "honor");
+      const merit = state.aggregate.filter(e => e.final_recommendation === "merit");
+      const cote = state.aggregate.filter(e => e.is_cote_recognized);
+      const none = state.aggregate.filter(e => e.final_recommendation === "none");
+      const undecided = state.aggregate.filter(e => !e.final_recommendation);
+
+      const renderList = (list) => list.length === 0
+        ? '<li style="color:var(--muted); font-style:italic;">None yet.</li>'
+        : list.map(e => `<li><span><span class="r-num">#${pad2(e.entry_number)}</span> ${escapeHtml(e.project_title)}<span class="r-avg">${e.avg_stars ? "★ " + Number(e.avg_stars).toFixed(2) : ""}</span></span></li>`).join("");
+
+      document.getElementById("app").innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2 style="margin:0; color:var(--aia-red);">Deliberation Results</h2>
+          <button class="btn" id="backToDelib" style="padding:8px 14px; border-radius:4px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px;">← Back to Deliberation</button>
+        </div>
+        <div class="results-section">
+          <h3 class="honor">🏆 Honor Awards (${honor.length})</h3>
+          <ul>${renderList(honor)}</ul>
+        </div>
+        <div class="results-section">
+          <h3 class="merit">Merit Awards (${merit.length})</h3>
+          <ul>${renderList(merit)}</ul>
+        </div>
+        <div class="results-section">
+          <h3 class="cote">COTE Chapter Award Recognized (${cote.length})</h3>
+          <ul>${renderList(cote)}</ul>
+        </div>
+        <div class="results-section">
+          <h3 class="none">No Award (${none.length})</h3>
+          <ul>${renderList(none)}</ul>
+        </div>
+        ${undecided.length > 0 ? `<div class="results-section">
+          <h3 class="undecided">Undecided (${undecided.length})</h3>
+          <ul>${renderList(undecided)}</ul>
+        </div>` : ""}
+        <p style="font-size:12px; color:var(--muted); margin-top:16px;">Results are live — this view refreshes each time you open it.</p>
+      `;
+      document.getElementById("backToDelib").addEventListener("click", () => renderDeliberation());
+    }
+
+    // ------- Projection Mode -------
+    async function startProjection(idx) {
+      state.projectionIdx = idx;
+      await renderProjection();
+      document.getElementById("projection").classList.add("open");
+    }
+    function stopProjection() {
+      document.getElementById("projection").classList.remove("open");
+    }
+    async function renderProjection() {
+      const entry = state.aggregate[state.projectionIdx];
+      if (!entry) return;
+      const ee = pad2(entry.entry_number);
+      document.getElementById("pEntry").textContent = `Entry #${ee}`;
+      document.getElementById("pTitle").textContent = entry.project_title;
+      document.getElementById("pCats").textContent = (entry.categories || []).join(" · ");
+      document.getElementById("pAvg").textContent = entry.avg_stars ? `${Number(entry.avg_stars).toFixed(2)} avg · ${entry.scored_by_count} juror${entry.scored_by_count===1?"":"s"}` : "Not yet rated";
+      document.getElementById("pStars").textContent = entry.avg_stars
+        ? "★".repeat(Math.round(entry.avg_stars)) + "☆".repeat(5 - Math.round(entry.avg_stars))
+        : "☆☆☆☆☆";
+      document.getElementById("pRankInfo").textContent = `Rank ${state.projectionIdx + 1} of ${state.aggregate.length}`;
+
+      // Recommendation badge — supports both rec + COTE
+      const recEl = document.getElementById("pRec");
+      const recLabel = document.getElementById("pRecLabel");
+      const badges = [];
+      if (entry.final_recommendation) {
+        const cls = `rec-badge rec-${entry.final_recommendation}`;
+        badges.push(`<span class="${cls}">${entry.final_recommendation === "none" ? "No Award" : entry.final_recommendation === "honor" ? "Honor Award" : "Merit Award"}</span>`);
+      }
+      if (entry.is_cote_recognized) {
+        badges.push(`<span class="rec-badge rec-cote">COTE ✓</span>`);
+      }
+      if (badges.length > 0) {
+        recLabel.style.display = "block";
+        recEl.innerHTML = badges.join("");
+      } else {
+        recLabel.style.display = "none";
+        recEl.innerHTML = "";
+      }
+
+      // Sync tag controls in footer with current state
+      const tagSelect = document.getElementById("pTagSelect");
+      tagSelect.value = entry.final_recommendation ?? "";
+      const coteWrap = document.getElementById("pCoteWrap");
+      const coteCheck = document.getElementById("pCoteCheck");
+      if (entry.cote_award) {
+        coteWrap.style.display = "inline-flex";
+        coteCheck.checked = !!entry.is_cote_recognized;
+      } else {
+        coteWrap.style.display = "none";
+      }
+
+      document.getElementById("pPrev").disabled = state.projectionIdx === 0;
+      document.getElementById("pNext").disabled = state.projectionIdx >= state.aggregate.length - 1;
+
+      // Load full entry detail to get files
+      try {
+        const { data, error } = await supabase.rpc("jury_get_submission", { p_id: entry.id });
+        if (error) throw error;
+        const filesBySlot = {};
+        (data.files || []).forEach(f => { filesBySlot[f.file_slot] = f; });
+        const boardWrap = document.getElementById("pBoardWrap");
+        if (filesBySlot.board) {
+          const boardUrl = await getSignedDownloadUrl(filesBySlot.board.storage_path, `${ee}-Board.pdf`);
+          boardWrap.innerHTML = `<iframe src="${boardUrl}#toolbar=0&navpanes=0" title="Board"></iframe>`;
+        } else {
+          boardWrap.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#666;">Board not uploaded</div>`;
+        }
+        const imgUrls = await Promise.all([1,2,3,4,5].map(async n => {
+          const f = filesBySlot[`image${n}`];
+          if (!f) return null;
+          return { url: await getSignedDownloadUrl(f.storage_path, `${ee}-Image${n}.jpeg`), n };
+        }));
+        const imgs = imgUrls.filter(Boolean);
+        document.getElementById("pImages").innerHTML = imgs.length
+          ? imgs.map(x => `<img src="${x.url}" alt="Image ${x.n}" />`).join("")
+          : `<div style="color:#888;font-size:12px;">No images uploaded</div>`;
+      } catch (e) {
+        console.warn("projection load failed:", e);
+      }
+    }
+    document.getElementById("pClose").addEventListener("click", stopProjection);
+    document.getElementById("pPrev").addEventListener("click", () => {
+      if (state.projectionIdx > 0) { state.projectionIdx--; renderProjection(); }
+    });
+    document.getElementById("pNext").addEventListener("click", () => {
+      if (state.projectionIdx < state.aggregate.length - 1) { state.projectionIdx++; renderProjection(); }
+    });
+    // In-projection tag select — saves and updates state
+    document.getElementById("pTagSelect").addEventListener("change", async (ev) => {
+      const entry = state.aggregate[state.projectionIdx];
+      if (!entry) return;
+      const value = ev.target.value || null;
+      try {
+        const { error } = await supabase.rpc("jury_lead_set_recommendation", {
+          p_submission_id: entry.id, p_recommendation: value,
+          p_is_cote_recognized: null, p_lead_notes: null
+        });
+        if (error) throw error;
+        entry.final_recommendation = value;
+        renderProjection();
+        toast(value ? `Tagged as ${value}` : "Tag cleared", "success");
+      } catch (e) {
+        toast("Could not save tag: " + (e.message || e), "error");
+      }
+    });
+    document.getElementById("pCoteCheck").addEventListener("change", async (ev) => {
+      const entry = state.aggregate[state.projectionIdx];
+      if (!entry) return;
+      try {
+        const { error } = await supabase.rpc("jury_lead_set_recommendation", {
+          p_submission_id: entry.id, p_recommendation: "__skip__",
+          p_is_cote_recognized: ev.target.checked, p_lead_notes: null
+        });
+        if (error) throw error;
+        entry.is_cote_recognized = ev.target.checked;
+        renderProjection();
+        toast(ev.target.checked ? "COTE marked" : "COTE unmarked", "success");
+      } catch (e) {
+        toast("Could not save: " + (e.message || e), "error");
+      }
+    });
+
+    // Mode toggle button
+    document.getElementById("modeToggle").addEventListener("click", async () => {
+      const toggle = document.getElementById("modeToggle");
+      if (state.mode === "review") {
+        state.mode = "deliberation";
+        toggle.textContent = "← Back to Review";
+        const ok = await loadAggregate();
+        if (ok) renderDeliberation();
+        else state.mode = "review"; // revert on error
+      } else {
+        state.mode = "review";
+        toggle.textContent = "→ Deliberation Mode";
+        renderLanding();
+      }
+    });
+
+    // Extend keyboard shortcuts for projection mode
+    document.addEventListener("keydown", async (e) => {
+      const proj = document.getElementById("projection");
+      if (!proj.classList.contains("open")) return;
+      const inInput = document.activeElement && ["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName);
+      if (e.key === "Escape") { stopProjection(); return; }
+      if (e.key === "ArrowLeft" && state.projectionIdx > 0) { state.projectionIdx--; renderProjection(); return; }
+      if (e.key === "ArrowRight" && state.projectionIdx < state.aggregate.length - 1) { state.projectionIdx++; renderProjection(); return; }
+      if (inInput) return;
+      // Rapid-tag shortcuts (H = Honor, M = Merit, N = None, C = toggle COTE, X = clear tag)
+      const entry = state.aggregate[state.projectionIdx];
+      if (!entry) return;
+      const keyMap = { h: "honor", H: "honor", m: "merit", M: "merit", n: "none", N: "none" };
+      if (keyMap[e.key]) {
+        e.preventDefault();
+        const value = keyMap[e.key];
+        try {
+          await supabase.rpc("jury_lead_set_recommendation", { p_submission_id: entry.id, p_recommendation: value, p_is_cote_recognized: null, p_lead_notes: null });
+          entry.final_recommendation = value;
+          renderProjection();
+          toast(`Tagged as ${value}`, "success");
+        } catch (err) { toast("Save failed: " + (err.message || err), "error"); }
+        return;
+      }
+      if ((e.key === "c" || e.key === "C") && entry.cote_award) {
+        e.preventDefault();
+        const newVal = !entry.is_cote_recognized;
+        try {
+          await supabase.rpc("jury_lead_set_recommendation", { p_submission_id: entry.id, p_recommendation: "__skip__", p_is_cote_recognized: newVal, p_lead_notes: null });
+          entry.is_cote_recognized = newVal;
+          renderProjection();
+          toast(newVal ? "COTE marked" : "COTE unmarked", "success");
+        } catch (err) { toast("Save failed: " + (err.message || err), "error"); }
+        return;
+      }
+      if (e.key === "x" || e.key === "X") {
+        e.preventDefault();
+        try {
+          await supabase.rpc("jury_lead_set_recommendation", { p_submission_id: entry.id, p_recommendation: null, p_is_cote_recognized: null, p_lead_notes: null });
+          entry.final_recommendation = null;
+          renderProjection();
+          toast("Tag cleared", "success");
+        } catch (err) { toast("Save failed: " + (err.message || err), "error"); }
+        return;
+      }
+    });
 
     async function init() {
       const { data: { session } } = await supabase.auth.getSession();

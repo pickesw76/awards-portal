@@ -964,11 +964,15 @@
       }
     }
 
+    // Get a signed URL for INLINE display (iframe src, img src). No download attachment header.
+    // The `filename` arg is kept for cache-key clarity but is unused in the URL.
     async function getSignedDownloadUrl(storagePath, filename) {
       const cached = state.urlCache.get(storagePath);
       if (cached && cached.expiresAt > Date.now() + 60000) return cached.url;
-      // Use the storage RLS: authenticated jury has read access to allowed paths
-      const { data, error } = await supabase.storage.from("submissions").createSignedUrl(storagePath, 900, { download: filename });
+      // NOTE: We deliberately do NOT pass { download: filename } here — that would set
+      // Content-Disposition: attachment on the response, which prevents browsers from
+      // rendering the PDF inline in an iframe. For jury.html everything is inline display.
+      const { data, error } = await supabase.storage.from("submissions").createSignedUrl(storagePath, 900);
       if (error) { console.warn("signed url failed for", storagePath, error); return null; }
       state.urlCache.set(storagePath, { url: data.signedUrl, expiresAt: Date.now() + 900000 });
       return data.signedUrl;

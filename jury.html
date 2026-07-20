@@ -6,47 +6,134 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>AIA Mississippi 2026 Design Awards — Jury Review</title>
   <style>
-    :root { --aia-red:#E74C3C; --aia-red-dark:#c0392b; --bg:#f4f4f6; --card:#fff; --border:#ddd; --muted:#666; --success:#2e7d32; --warn:#b35c00; --error:#c62828; }
+    :root {
+      --aia-red: #E74C3C; --aia-red-dark: #c0392b;
+      --bg: #f4f4f6; --card: #fff; --border: #ddd; --muted: #666;
+      --success: #2e7d32; --warn: #b35c00; --error: #c62828;
+      --star: #f5a623;
+    }
     * { box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: var(--bg); color: #333; margin: 0; }
     a { color: var(--aia-red); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    header.topbar { background: var(--aia-red); color: #fff; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
-    header.topbar .mark { font-size: 11px; letter-spacing: 3px; font-weight: 700; opacity: 0.9; }
-    header.topbar h1 { margin: 0; font-size: 18px; font-weight: 700; }
+    header.topbar { background: var(--aia-red); color: #fff; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+    header.topbar .mark { font-size: 10px; letter-spacing: 3px; font-weight: 700; opacity: 0.9; }
+    header.topbar h1 { margin: 0; font-size: 17px; font-weight: 700; }
+    header.topbar .progress-mini { font-size: 12px; opacity: 0.95; margin-top: 3px; }
     header.topbar .user-info { display: flex; align-items: center; gap: 12px; font-size: 13px; }
-    header.topbar .signout { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    header.topbar .lead-badge { background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.4); padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+    header.topbar .signout { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    header.topbar .signout:hover { background: rgba(255,255,255,0.3); }
 
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 24px 16px 60px; }
-    .anonymous-banner { background: #fff3cd; border: 1px solid #ffc107; border-left: 4px solid #ffc107; color: var(--warn); padding: 12px 16px; border-radius: 4px; font-size: 13px; margin-bottom: 16px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 20px 16px 60px; }
+    .anonymous-banner { background: #fff3cd; border: 1px solid #ffc107; border-left: 4px solid #ffc107; color: var(--warn); padding: 10px 14px; border-radius: 4px; font-size: 13px; margin-bottom: 16px; }
 
-    .filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
-    .filters select { padding: 7px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; background: #fff; }
+    .filters { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; font-size: 13px; }
+    .filters select, .filters input[type="search"] { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; background: #fff; }
+    .filters label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
 
-    .entries-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-    .entry-card { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 16px; cursor: pointer; transition: all 0.15s ease; }
-    .entry-card:hover { border-color: var(--aia-red); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .entry-card .num { display: inline-block; background: var(--aia-red); color: #fff; padding: 3px 10px; border-radius: 3px; font-size: 12px; font-weight: 700; }
-    .entry-card .title { font-size: 16px; font-weight: 600; margin: 10px 0 6px 0; }
-    .entry-card .categories { color: var(--muted); font-size: 12px; }
-    .entry-card .badges { margin-top: 10px; }
+    /* Entry rows */
+    table.entries { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    table.entries th, table.entries td { padding: 12px 14px; text-align: left; font-size: 13px; border-bottom: 1px solid #eee; vertical-align: middle; }
+    table.entries th { background: #f8f8f8; font-weight: 600; color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+    table.entries tr { cursor: pointer; transition: background 0.1s ease; }
+    table.entries tr:hover { background: #fafafa; }
+    table.entries td.num { font-weight: 700; color: var(--aia-red); font-size: 14px; }
+    table.entries td.title { font-weight: 500; }
+    table.entries td.cats { color: var(--muted); font-size: 12px; }
+    table.entries td.stars-cell { min-width: 130px; }
+    table.entries td.notes-indicator { color: var(--muted); font-size: 12px; text-align: center; width: 40px; }
+    table.entries tr.rated { background: linear-gradient(to right, rgba(46,125,50,0.04) 0%, transparent 20%); }
+
     .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; margin-right: 4px; }
     .badge-cote { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+    .badge-no-files { background: #fafafa; color: var(--muted); border: 1px solid #ddd; }
 
-    /* Modal */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+    /* Inline star rating */
+    .stars { display: inline-flex; gap: 2px; user-select: none; }
+    .stars .star { font-size: 20px; color: #ddd; cursor: pointer; line-height: 1; transition: transform 0.1s ease; }
+    .stars .star.on { color: var(--star); }
+    .stars .star:hover { transform: scale(1.15); }
+    .stars.readonly .star { cursor: default; }
+    .stars.readonly .star:hover { transform: none; }
+    .stars.big .star { font-size: 30px; }
+    .stars .clear { font-size: 11px; color: var(--muted); margin-left: 8px; cursor: pointer; align-self: center; padding: 2px 4px; }
+    .stars .clear:hover { color: var(--error); }
+
+    /* Modal / detail view */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: stretch; justify-content: center; z-index: 100; padding: 16px; }
     .modal-overlay.open { display: flex; }
-    .modal { background: #fff; border-radius: 8px; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; }
-    .modal-header { background: var(--aia-red); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 8px 8px 0 0; }
-    .modal-header h2 { margin: 0; font-size: 16px; }
-    .modal-header .close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-    .modal-body { padding: 20px; }
-    .file-list { list-style: none; padding: 0; margin: 0; }
-    .file-list li { padding: 10px 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-    .file-list li:last-child { border-bottom: none; }
-    .btn { padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; display: inline-block; background: var(--aia-red); color: #fff; }
-    .btn:hover { background: var(--aia-red-dark); }
+    .modal { background: #fff; border-radius: 8px; width: 100%; max-width: 1100px; display: flex; flex-direction: column; max-height: calc(100vh - 32px); overflow: hidden; }
+    .modal-header { background: var(--aia-red); color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .modal-header .h-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .modal-header .h-entry { background: #fff; color: var(--aia-red); font-weight: 700; padding: 4px 10px; border-radius: 4px; font-size: 13px; letter-spacing: 0.3px; white-space: nowrap; }
+    .modal-header h2 { margin: 0; font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+    .modal-header .h-cats { font-size: 12px; opacity: 0.9; margin-left: 4px; white-space: nowrap; }
+    .modal-header .h-right { display: flex; gap: 8px; align-items: center; }
+    .modal-header .h-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .modal-header .h-btn:hover { background: rgba(255,255,255,0.3); }
+    .modal-header .h-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .modal-header .close { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 0 4px; margin-left: 8px; }
+
+    .modal-body { flex: 1; overflow-y: auto; display: grid; grid-template-columns: 1fr 320px; gap: 0; }
+    @media (max-width: 900px) {
+      .modal-body { grid-template-columns: 1fr; }
+    }
+    .review-area { padding: 16px 20px; overflow-y: auto; min-width: 0; }
+    .review-sidebar { padding: 16px 20px; border-left: 1px solid var(--border); background: #fafafa; overflow-y: auto; }
+
+    /* PDF viewer + image gallery */
+    .board-viewer {
+      width: 100%;
+      background: #eeeeee;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .board-viewer iframe {
+      width: 100%;
+      height: 640px;
+      border: none;
+      display: block;
+    }
+    .board-viewer .empty { padding: 60px 20px; text-align: center; color: var(--muted); }
+    .board-controls { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #fff; border-bottom: 1px solid var(--border); }
+    .board-controls strong { font-size: 12px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; }
+    .board-controls .kbd-hint { font-size: 11px; color: var(--muted); }
+    .board-controls .fullscreen-btn { background: #fff; border: 1px solid var(--border); padding: 4px 10px; font-size: 12px; border-radius: 3px; cursor: pointer; color: #444; }
+    .board-controls .fullscreen-btn:hover { background: #f4f4f4; }
+
+    .image-gallery { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; }
+    .image-gallery .img-cell { position: relative; background: #f0f0f0; border: 1px solid var(--border); border-radius: 4px; aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
+    .image-gallery .img-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-gallery .img-cell .label { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.3px; text-transform: uppercase; }
+    .image-gallery .img-cell.empty { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 11px; cursor: default; }
+    .image-gallery .img-cell:not(.empty):hover { border-color: var(--aia-red); }
+    @media (max-width: 700px) {
+      .image-gallery { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Rating sidebar */
+    .review-sidebar h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 0 0 8px 0; font-weight: 600; }
+    .review-sidebar .save-status { font-size: 11px; color: var(--muted); margin-left: 8px; }
+    .review-sidebar .save-status.saving { color: var(--warn); }
+    .review-sidebar .save-status.saved { color: var(--success); }
+    .review-sidebar textarea { width: 100%; min-height: 200px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px; font-family: inherit; font-size: 13px; line-height: 1.5; resize: vertical; }
+    .review-sidebar .notes-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+    .review-sidebar .rating-row { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #eee; }
+    .review-sidebar .rating-row:last-child { border-bottom: none; }
+
+    /* Fullscreen image viewer */
+    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 200; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 92vh; object-fit: contain; }
+    .lightbox .lb-close { position: absolute; top: 16px; right: 20px; color: #fff; background: none; border: none; font-size: 30px; cursor: pointer; }
+    .lightbox .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; background: rgba(255,255,255,0.15); border: none; padding: 12px 16px; font-size: 20px; cursor: pointer; border-radius: 4px; }
+    .lightbox .lb-prev { left: 20px; }
+    .lightbox .lb-next { right: 20px; }
+    .lightbox .lb-caption { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 13px; background: rgba(0,0,0,0.5); padding: 4px 12px; border-radius: 3px; }
 
     /* Login */
     .login-shell { max-width: 420px; margin: 80px auto; }
@@ -68,6 +155,7 @@
     .toast-area { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
     .toast { background: #333; color: #fff; padding: 12px 18px; border-radius: 4px; font-size: 13px; }
     .toast.error { background: var(--error); }
+    .toast.success { background: var(--success); }
   </style>
 </head>
 <body>
@@ -77,8 +165,10 @@
     <div>
       <div class="mark">AIA MISSISSIPPI</div>
       <h1>2026 Design Awards · Jury Review</h1>
+      <div class="progress-mini" id="progressMini" style="display:none;"></div>
     </div>
     <div class="user-info" id="userInfo" style="display:none;">
+      <span id="leadBadge" class="lead-badge" style="display:none;">JURY LEAD</span>
       <span id="userEmail"></span>
       <button class="signout" id="signoutBtn">Sign out</button>
     </div>
@@ -93,11 +183,32 @@
     <p style="margin:6px 0 0 0;"><a href="https://www.aiamississippi.org">www.aiamississippi.org</a> · <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a></p>
   </footer>
 
+  <!-- Detail modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
-      <div class="modal-header"><h2 id="modalTitle">Entry detail</h2><button class="close" id="modalClose">&times;</button></div>
+      <div class="modal-header">
+        <div class="h-left">
+          <span class="h-entry" id="modalEntry">Entry #—</span>
+          <h2 id="modalTitle">Entry detail</h2>
+          <span class="h-cats" id="modalCats"></span>
+        </div>
+        <div class="h-right">
+          <button class="h-btn" id="prevBtn" title="Previous entry (←)">← Prev</button>
+          <button class="h-btn" id="nextBtn" title="Next entry (→)">Next →</button>
+          <button class="close" id="modalClose" title="Close (Esc)">&times;</button>
+        </div>
+      </div>
       <div class="modal-body" id="modalBody"></div>
     </div>
+  </div>
+
+  <!-- Image lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lb-close" id="lbClose">&times;</button>
+    <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+    <img id="lbImg" alt="Enlarged image" />
+    <button class="lb-nav lb-next" id="lbNext">›</button>
+    <div class="lb-caption" id="lbCaption"></div>
   </div>
 
   <script type="module">
@@ -107,15 +218,26 @@
     const SUPABASE_ANON_KEY = "sb_publishable_09-YvbXHvlkyw13020vipg_bEJZt-nJ";
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
 
-    const state = { entries: [], filterCategory: "" };
+    const state = {
+      entries: [],
+      filterCategory: "",
+      filterUnratedOnly: false,
+      currentEntryId: null,
+      currentEntryDetail: null,
+      // in-memory cache of signed download URLs { path -> {url, expiresAt} }
+      urlCache: new Map(),
+      isLead: false,
+      userEmail: ""
+    };
 
     function escapeHtml(s) { return String(s ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
-    function fmtBytes(n) { if (n == null) return ""; if (n < 1024*1024) return `${(n/1024).toFixed(1)} KB`; return `${(n/1024/1024).toFixed(1)} MB`; }
     function pad2(n) { return String(n).padStart(2, "0"); }
-    function toast(msg, kind = "") { const el = document.createElement("div"); el.className = "toast " + kind; el.textContent = msg; document.getElementById("toastArea").appendChild(el); setTimeout(() => el.remove(), 4500); }
+    function toast(msg, kind = "") { const el = document.createElement("div"); el.className = "toast " + kind; el.textContent = msg; document.getElementById("toastArea").appendChild(el); setTimeout(() => el.remove(), 4000); }
 
+    // ------- Login -------
     function renderLogin(message = null, kind = "") {
       document.getElementById("userInfo").style.display = "none";
+      document.getElementById("progressMini").style.display = "none";
       document.getElementById("app").innerHTML = `
         <div class="login-shell"><div class="card">
           <h2>Jury Sign In</h2>
@@ -125,12 +247,13 @@
           <div class="msg ${kind}" id="loginMsg">${message ?? ""}</div>
         </div></div>
       `;
-      document.getElementById("emailInput").focus();
-      document.getElementById("emailInput").addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("sendLinkBtn").click(); });
-      document.getElementById("sendLinkBtn").addEventListener("click", async () => {
-        const email = document.getElementById("emailInput").value.trim();
-        const btn = document.getElementById("sendLinkBtn");
-        const msg = document.getElementById("loginMsg");
+      const input = document.getElementById("emailInput");
+      const btn = document.getElementById("sendLinkBtn");
+      const msg = document.getElementById("loginMsg");
+      input.focus();
+      input.addEventListener("keydown", e => { if (e.key === "Enter") btn.click(); });
+      btn.addEventListener("click", async () => {
+        const email = input.value.trim();
         if (!email) return;
         btn.disabled = true; btn.textContent = "Sending…";
         try {
@@ -147,89 +270,352 @@
       });
     }
 
-    function renderDashboard() {
+    // ------- Landing screen (entry list) -------
+    function renderLanding() {
       const allCategories = Array.from(new Set(state.entries.flatMap(e => e.categories || []))).sort();
       const categoryOpts = allCategories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+      const total = state.entries.length;
+      const rated = state.entries.filter(e => e.my_stars).length;
+      document.getElementById("progressMini").style.display = "block";
+      document.getElementById("progressMini").textContent = `${rated} of ${total} rated`;
 
-      const filtered = state.entries.filter(e => !state.filterCategory || (e.categories || []).includes(state.filterCategory));
+      const filtered = state.entries.filter(e => {
+        if (state.filterCategory && !(e.categories || []).includes(state.filterCategory)) return false;
+        if (state.filterUnratedOnly && e.my_stars) return false;
+        return true;
+      });
 
       document.getElementById("app").innerHTML = `
         <div class="anonymous-banner">
-          <strong>Anonymous Jury View.</strong> Firm names and identifying information have been removed. You see only the anonymous board, the presentation (without credits), and the 5 hi-res images for each entry.
+          <strong>Anonymous Jury View.</strong> Firm names, contact info, credit slides, with-name boards, and entry forms are hidden. You see only the anonymous board, the presentation (without credits), and 5 hi-res project images per entry.
         </div>
         <div class="filters">
           <select id="filterCategory">
-            <option value="">All categories (${state.entries.length})</option>
+            <option value="">All categories</option>
             ${categoryOpts}
           </select>
-          <span style="font-size:13px;color:var(--muted);">Showing ${filtered.length} entries</span>
+          <label><input type="checkbox" id="filterUnrated" ${state.filterUnratedOnly?"checked":""} /> Unrated only</label>
+          <span style="color:var(--muted); margin-left:auto;">Showing ${filtered.length} of ${total}</span>
         </div>
-        <div class="entries-grid" id="grid">
-          ${filtered.map(e => `
-            <div class="entry-card" data-id="${e.id}">
-              <span class="num">Entry #${pad2(e.entry_number)}</span>
-              <div class="title">${escapeHtml(e.project_title)}</div>
-              <div class="categories">${(e.categories || []).map(escapeHtml).join(" · ")}</div>
-              <div class="badges">${e.cote_award ? '<span class="badge badge-cote">COTE</span>' : ""}</div>
-            </div>
-          `).join("")}
-        </div>
+        <table class="entries">
+          <thead>
+            <tr>
+              <th style="width:60px;">Entry</th>
+              <th>Project</th>
+              <th>Categories</th>
+              <th style="width:60px;">Flags</th>
+              <th style="width:80px;">Files</th>
+              <th style="width:150px;">Your Rating</th>
+              <th style="width:40px;" title="Has your notes"></th>
+            </tr>
+          </thead>
+          <tbody id="entriesBody">
+            ${filtered.map(e => renderRow(e)).join("")}
+          </tbody>
+        </table>
       `;
-      document.getElementById("filterCategory").addEventListener("change", (e) => { state.filterCategory = e.target.value; renderDashboard(); });
-      document.querySelectorAll(".entry-card").forEach(c => c.addEventListener("click", () => openDetail(c.dataset.id)));
+      document.getElementById("filterCategory").value = state.filterCategory;
+      document.getElementById("filterCategory").addEventListener("change", e => { state.filterCategory = e.target.value; renderLanding(); });
+      document.getElementById("filterUnrated").addEventListener("change", e => { state.filterUnratedOnly = e.target.checked; renderLanding(); });
+
+      // Wire row clicks + inline star ratings
+      document.querySelectorAll("tr[data-entry-id]").forEach(tr => {
+        tr.addEventListener("click", (ev) => {
+          if (ev.target.closest(".stars")) return; // don't open modal when clicking stars
+          openDetail(tr.dataset.entryId);
+        });
+      });
+      document.querySelectorAll(".stars[data-inline]").forEach(container => {
+        wireStars(container, async (rating) => {
+          const entryId = container.dataset.entryId;
+          const entry = state.entries.find(x => x.id === entryId);
+          if (!entry) return;
+          entry.my_stars = rating;
+          await supabase.rpc("jury_set_evaluation", { p_submission_id: entryId, p_stars: rating, p_notes: entry.my_notes ?? null });
+          renderLanding();
+        });
+      });
     }
 
+    function renderRow(e) {
+      const ee = pad2(e.entry_number);
+      const cats = (e.categories || []).map(escapeHtml).join(" · ");
+      const flags = [
+        e.cote_award ? '<span class="badge badge-cote">COTE</span>' : ""
+      ].filter(Boolean).join("");
+      const filesLabel = e.reviewable_file_count === 0
+        ? '<span class="badge badge-no-files">No files</span>'
+        : `${e.reviewable_file_count} / 7`;
+      const notesIndicator = e.my_notes ? "📝" : "";
+      const rowClass = e.my_stars ? "rated" : "";
+      return `<tr data-entry-id="${e.id}" class="${rowClass}">
+        <td class="num">${ee}</td>
+        <td class="title">${escapeHtml(e.project_title)}</td>
+        <td class="cats">${cats}</td>
+        <td>${flags}</td>
+        <td>${filesLabel}</td>
+        <td class="stars-cell">${starsHtml(e.my_stars, { inline: true, entryId: e.id })}</td>
+        <td class="notes-indicator" title="${e.my_notes ? 'You have notes' : ''}">${notesIndicator}</td>
+      </tr>`;
+    }
+
+    // ------- Star rating widget -------
+    function starsHtml(value, opts = {}) {
+      const v = value ?? 0;
+      const cls = opts.readonly ? "stars readonly" : "stars";
+      const size = opts.big ? " big" : "";
+      const inline = opts.inline ? `data-inline="1" data-entry-id="${opts.entryId}"` : "";
+      const stars = [1,2,3,4,5].map(n => `<span class="star${n <= v ? " on" : ""}" data-rating="${n}">★</span>`).join("");
+      const clearBtn = (!opts.readonly && v > 0) ? `<span class="clear" data-clear="1">Clear</span>` : "";
+      return `<span class="${cls}${size}" ${inline}>${stars}${clearBtn}</span>`;
+    }
+
+    function wireStars(container, onChange) {
+      if (container.classList.contains("readonly")) return;
+      container.querySelectorAll(".star").forEach(star => {
+        star.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          const rating = Number(star.dataset.rating);
+          onChange(rating);
+        });
+      });
+      const clearBtn = container.querySelector("[data-clear]");
+      if (clearBtn) {
+        clearBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          onChange(null);
+        });
+      }
+    }
+
+    // ------- Detail modal -------
     async function openDetail(submissionId) {
+      state.currentEntryId = submissionId;
       const overlay = document.getElementById("modalOverlay");
       const body = document.getElementById("modalBody");
-      const title = document.getElementById("modalTitle");
-      body.innerHTML = `<div class="loading"><div class="spinner"></div><p>Loading…</p></div>`;
+      document.getElementById("modalTitle").textContent = "Loading…";
+      body.innerHTML = `<div class="loading" style="grid-column: 1 / -1;"><div class="spinner"></div><p>Loading entry…</p></div>`;
       overlay.classList.add("open");
+      updatePrevNextButtons();
+
       try {
         const { data, error } = await supabase.rpc("jury_get_submission", { p_id: submissionId });
         if (error) throw new Error(error.message);
-        const ee = pad2(data.entry_number);
-        title.textContent = `Entry #${ee} — ${data.project_title}`;
-        const filesByslot = {};
-        (data.files || []).forEach(f => { filesByslot[f.file_slot] = f; });
+        if (!data) throw new Error("Entry not found");
+        state.currentEntryDetail = data;
 
-        const slotOrder = [
-          { key: "presentation", label: "Presentation (PDF)" },
-          { key: "board", label: "Anonymous Board (PDF)" },
-          { key: "image1", label: "Image 1 (JPEG)" }, { key: "image2", label: "Image 2 (JPEG)" },
-          { key: "image3", label: "Image 3 (JPEG)" }, { key: "image4", label: "Image 4 (JPEG)" }, { key: "image5", label: "Image 5 (JPEG)" }
-        ];
+        const ee = pad2(data.entry_number);
+        document.getElementById("modalEntry").textContent = `Entry #${ee}`;
+        document.getElementById("modalTitle").textContent = data.project_title;
+        document.getElementById("modalCats").innerHTML = `· ${(data.categories||[]).map(escapeHtml).join(" · ")}${data.cote_award ? ' · <span class="badge badge-cote" style="margin:0;">COTE</span>' : ""}`;
+
+        // Load my current evaluation
+        const { data: myEval } = await supabase.rpc("jury_get_my_evaluation", { p_submission_id: submissionId });
+        const myStars = myEval?.stars ?? null;
+        const myNotes = myEval?.notes ?? "";
+
+        // Build file map
+        const filesBySlot = {};
+        (data.files || []).forEach(f => { filesBySlot[f.file_slot] = f; });
+        const hasBoard = !!filesBySlot.board;
+        const hasPres = !!filesBySlot.presentation;
+        const images = [1,2,3,4,5].map(i => filesBySlot[`image${i}`]);
+
+        // Get signed URLs (parallelized)
+        const [boardUrl, presUrl, ...imgUrls] = await Promise.all([
+          hasBoard ? getSignedDownloadUrl(filesBySlot.board.storage_path, `${ee}-Board.pdf`) : Promise.resolve(null),
+          hasPres ? getSignedDownloadUrl(filesBySlot.presentation.storage_path, `${ee}-Presentation.pdf`) : Promise.resolve(null),
+          ...images.map((f, i) => f ? getSignedDownloadUrl(f.storage_path, `${ee}-Image${i+1}.jpeg`) : Promise.resolve(null))
+        ]);
+
+        // Save URLs for lightbox nav
+        state.currentImageUrls = imgUrls.map((u, i) => u ? { url: u, label: `Image ${i+1}`, filename: `${ee}-Image${i+1}.jpeg` } : null).filter(Boolean);
 
         body.innerHTML = `
-          <p style="margin:0 0 14px 0;"><strong>Categories:</strong> ${(data.categories || []).map(escapeHtml).join(", ")}${data.cote_award ? ' &nbsp;<span class="badge badge-cote">COTE</span>' : ""}</p>
-          <ul class="file-list">
-            ${slotOrder.map(slot => {
-              const f = filesByslot[slot.key];
-              if (!f) return `<li><span style="color:#aaa;font-style:italic;">${slot.label} — not uploaded</span></li>`;
-              return `<li><span>${slot.label} <span style="color:var(--muted);font-size:11px;">${fmtBytes(f.file_size)}</span></span><button class="btn" data-path="${escapeHtml(f.storage_path)}" data-name="${ee}-${slot.key.startsWith('image') ? slot.key.replace('image','Image')+'.jpeg' : (slot.key === 'board' ? 'Board.pdf' : 'Presentation.pdf')}">Download</button></li>`;
-            }).join("")}
-          </ul>
-          <p style="font-size:11px;color:var(--muted);margin-top:14px;">Download links expire after 10 minutes.</p>
+          <div class="review-area">
+            <div class="board-viewer">
+              <div class="board-controls">
+                <strong>Anonymous Board (20 × 30)</strong>
+                <div>
+                  <span class="kbd-hint">← / → to navigate entries · Esc to close</span>
+                  ${boardUrl ? `<button class="fullscreen-btn" id="fsBoard">↗ Open full-screen</button>` : ""}
+                </div>
+              </div>
+              ${boardUrl
+                ? `<iframe src="${boardUrl}#toolbar=1&navpanes=0" title="Anonymous board"></iframe>`
+                : `<div class="empty">Anonymous board not yet uploaded.</div>`}
+            </div>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; margin: 4px 0 10px;">
+              <strong style="font-size:12px; color:#555; text-transform:uppercase; letter-spacing:0.4px;">Project Images (${state.currentImageUrls.length} of 5)</strong>
+              ${presUrl ? `<a href="${presUrl}" target="_blank" style="font-size:12px;">Open Presentation PDF ↗</a>` : `<span style="font-size:12px; color:var(--muted);">Presentation not uploaded</span>`}
+            </div>
+            <div class="image-gallery" id="imageGallery">
+              ${[1,2,3,4,5].map((n, i) => {
+                const url = imgUrls[i];
+                return url
+                  ? `<div class="img-cell" data-idx="${state.currentImageUrls.findIndex(x => x.url === url)}"><span class="label">Image ${n}</span><img src="${url}" alt="Image ${n}" loading="lazy" /></div>`
+                  : `<div class="img-cell empty">Image ${n}<br>not uploaded</div>`;
+              }).join("")}
+            </div>
+          </div>
+
+          <div class="review-sidebar">
+            <div class="rating-row">
+              <h3>Your Rating <span class="save-status" id="starSaveStatus"></span></h3>
+              <div id="starRatingContainer">${starsHtml(myStars, { big: true })}</div>
+              <p class="notes-hint">Click a star to rate. Click "Clear" to unrate.</p>
+            </div>
+            <div class="rating-row">
+              <h3>Your Notes <span class="save-status" id="notesSaveStatus"></span></h3>
+              <textarea id="myNotes" placeholder="Private notes for your own reference…">${escapeHtml(myNotes)}</textarea>
+              <p class="notes-hint">Autosaves 1 second after you stop typing. Only the Jury Lead can see your notes.</p>
+            </div>
+          </div>
         `;
-        body.querySelectorAll("button[data-path]").forEach(b => b.addEventListener("click", () => downloadFile(b.dataset.path, b.dataset.name)));
+
+        // Wire star rating (big, in sidebar)
+        wireStars(document.querySelector("#starRatingContainer .stars"), async (rating) => {
+          const statusEl = document.getElementById("starSaveStatus");
+          statusEl.className = "save-status saving"; statusEl.textContent = "saving…";
+          try {
+            const notes = document.getElementById("myNotes").value;
+            await supabase.rpc("jury_set_evaluation", { p_submission_id: submissionId, p_stars: rating, p_notes: notes });
+            document.getElementById("starRatingContainer").innerHTML = starsHtml(rating, { big: true });
+            wireStars(document.querySelector("#starRatingContainer .stars"), arguments.callee);
+            statusEl.className = "save-status saved"; statusEl.textContent = "✓ saved";
+            setTimeout(() => statusEl.textContent = "", 2000);
+            // Update landing entry
+            const listEntry = state.entries.find(x => x.id === submissionId);
+            if (listEntry) listEntry.my_stars = rating;
+          } catch (e) {
+            statusEl.className = "save-status error"; statusEl.textContent = "save failed";
+            toast("Could not save rating: " + (e.message || e), "error");
+          }
+        });
+
+        // Wire notes autosave (1 sec debounce)
+        let notesTimer = null;
+        document.getElementById("myNotes").addEventListener("input", () => {
+          const statusEl = document.getElementById("notesSaveStatus");
+          statusEl.className = "save-status"; statusEl.textContent = "unsaved…";
+          if (notesTimer) clearTimeout(notesTimer);
+          notesTimer = setTimeout(async () => {
+            const notes = document.getElementById("myNotes").value;
+            statusEl.className = "save-status saving"; statusEl.textContent = "saving…";
+            try {
+              const currentStars = state.entries.find(x => x.id === submissionId)?.my_stars ?? null;
+              await supabase.rpc("jury_set_evaluation", { p_submission_id: submissionId, p_stars: currentStars, p_notes: notes });
+              statusEl.className = "save-status saved"; statusEl.textContent = "✓ saved";
+              // Update landing entry
+              const listEntry = state.entries.find(x => x.id === submissionId);
+              if (listEntry) listEntry.my_notes = notes;
+              setTimeout(() => statusEl.textContent = "", 2000);
+            } catch (e) {
+              statusEl.className = "save-status error"; statusEl.textContent = "save failed";
+              toast("Could not save notes: " + (e.message || e), "error");
+            }
+          }, 1000);
+        });
+
+        // Fullscreen board button
+        if (boardUrl) {
+          document.getElementById("fsBoard").addEventListener("click", () => window.open(boardUrl, "_blank"));
+        }
+        // Image gallery clicks -> lightbox
+        document.querySelectorAll(".img-cell:not(.empty)").forEach(cell => {
+          cell.addEventListener("click", () => openLightbox(Number(cell.dataset.idx)));
+        });
+
       } catch (e) {
-        body.innerHTML = `<div style="color:var(--error);">Error: ${escapeHtml(e.message)}</div>`;
+        body.innerHTML = `<div style="color:var(--error); padding:20px; grid-column:1 / -1;">Error: ${escapeHtml(e.message)}</div>`;
       }
     }
 
-    async function downloadFile(path, filename) {
-      try {
-        const { data, error } = await supabase.storage.from("submissions").createSignedUrl(path, 600, { download: filename });
-        if (error) throw new Error(error.message);
-        window.open(data.signedUrl, "_blank");
-      } catch (e) {
-        toast("Download failed: " + (e.message || e), "error");
-      }
+    async function getSignedDownloadUrl(storagePath, filename) {
+      const cached = state.urlCache.get(storagePath);
+      if (cached && cached.expiresAt > Date.now() + 60000) return cached.url;
+      // Use the storage RLS: authenticated jury has read access to allowed paths
+      const { data, error } = await supabase.storage.from("submissions").createSignedUrl(storagePath, 900, { download: filename });
+      if (error) { console.warn("signed url failed for", storagePath, error); return null; }
+      state.urlCache.set(storagePath, { url: data.signedUrl, expiresAt: Date.now() + 900000 });
+      return data.signedUrl;
     }
 
-    document.getElementById("modalClose").addEventListener("click", () => document.getElementById("modalOverlay").classList.remove("open"));
-    document.getElementById("modalOverlay").addEventListener("click", (e) => { if (e.target.id === "modalOverlay") document.getElementById("modalOverlay").classList.remove("open"); });
+    function updatePrevNextButtons() {
+      const currentIdx = state.entries.findIndex(e => e.id === state.currentEntryId);
+      document.getElementById("prevBtn").disabled = currentIdx <= 0;
+      document.getElementById("nextBtn").disabled = currentIdx < 0 || currentIdx >= state.entries.length - 1;
+    }
 
+    function navPrev() {
+      const idx = state.entries.findIndex(e => e.id === state.currentEntryId);
+      if (idx > 0) openDetail(state.entries[idx - 1].id);
+    }
+    function navNext() {
+      const idx = state.entries.findIndex(e => e.id === state.currentEntryId);
+      if (idx >= 0 && idx < state.entries.length - 1) openDetail(state.entries[idx + 1].id);
+    }
+    function closeModal() {
+      document.getElementById("modalOverlay").classList.remove("open");
+      state.currentEntryId = null;
+      // Re-render landing to reflect any new ratings/notes
+      renderLanding();
+    }
+
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    document.getElementById("prevBtn").addEventListener("click", navPrev);
+    document.getElementById("nextBtn").addEventListener("click", navNext);
+    document.getElementById("modalOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "modalOverlay") closeModal();
+    });
+
+    // Global keyboard shortcuts
+    document.addEventListener("keydown", (e) => {
+      const overlay = document.getElementById("modalOverlay");
+      const lightbox = document.getElementById("lightbox");
+      const inInput = document.activeElement && ["INPUT","TEXTAREA"].includes(document.activeElement.tagName);
+      if (lightbox.classList.contains("open")) {
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") lightboxNav(-1);
+        if (e.key === "ArrowRight") lightboxNav(1);
+        return;
+      }
+      if (!overlay.classList.contains("open")) return;
+      if (inInput) return; // don't hijack arrow keys while typing notes
+      if (e.key === "Escape") closeModal();
+      if (e.key === "ArrowLeft") navPrev();
+      if (e.key === "ArrowRight") navNext();
+    });
+
+    // ------- Image lightbox -------
+    let lbIdx = 0;
+    function openLightbox(idx) {
+      lbIdx = idx;
+      renderLightbox();
+      document.getElementById("lightbox").classList.add("open");
+    }
+    function closeLightbox() { document.getElementById("lightbox").classList.remove("open"); }
+    function lightboxNav(delta) {
+      lbIdx = Math.max(0, Math.min(state.currentImageUrls.length - 1, lbIdx + delta));
+      renderLightbox();
+    }
+    function renderLightbox() {
+      const item = state.currentImageUrls[lbIdx];
+      if (!item) return;
+      document.getElementById("lbImg").src = item.url;
+      document.getElementById("lbCaption").textContent = `${item.label} · ${lbIdx + 1} of ${state.currentImageUrls.length}`;
+      document.getElementById("lbPrev").style.visibility = lbIdx > 0 ? "visible" : "hidden";
+      document.getElementById("lbNext").style.visibility = lbIdx < state.currentImageUrls.length - 1 ? "visible" : "hidden";
+    }
+    document.getElementById("lbClose").addEventListener("click", closeLightbox);
+    document.getElementById("lbPrev").addEventListener("click", () => lightboxNav(-1));
+    document.getElementById("lbNext").addEventListener("click", () => lightboxNav(1));
+    document.getElementById("lightbox").addEventListener("click", (e) => {
+      if (e.target.id === "lightbox") closeLightbox();
+    });
+
+    // ------- Auth flow -------
     async function loadEntries() {
       const { data, error } = await supabase.rpc("jury_list_submissions");
       if (error) {
@@ -242,15 +628,25 @@
         return;
       }
       state.entries = data || [];
-      renderDashboard();
+      renderLanding();
+    }
+
+    async function checkLeadRole() {
+      try {
+        const { data } = await supabase.rpc("is_jury_lead");
+        state.isLead = data === true;
+        document.getElementById("leadBadge").style.display = state.isLead ? "inline-block" : "none";
+      } catch (e) { state.isLead = false; }
     }
 
     async function init() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) { renderLogin(); return; }
+      state.userEmail = session.user.email;
       document.getElementById("userInfo").style.display = "flex";
-      document.getElementById("userEmail").textContent = session.user.email;
+      document.getElementById("userEmail").textContent = state.userEmail;
       document.getElementById("signoutBtn").addEventListener("click", async () => { await supabase.auth.signOut(); location.reload(); });
+      await checkLeadRole();
       await loadEntries();
     }
 

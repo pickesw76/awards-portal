@@ -27,6 +27,41 @@
     header.topbar .signout:hover { background: rgba(255,255,255,0.3); }
     header.topbar .mode-toggle { background: #fff; color: var(--aia-red); border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: 0.3px; }
     header.topbar .mode-toggle:hover { background: #ffe6e2; }
+    header.topbar .help-btn { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+    header.topbar .help-btn:hover { background: rgba(255,255,255,0.3); }
+
+    /* Help / Manual modal */
+    .help-modal { background: #fff; border-radius: 8px; width: 100%; max-width: 1000px; display: flex; flex-direction: column; max-height: calc(100vh - 32px); overflow: hidden; }
+    .help-modal .help-header { background: var(--aia-red); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .help-modal .help-header h2 { margin: 0; font-size: 16px; }
+    .help-modal .help-body { flex: 1; overflow: hidden; display: grid; grid-template-columns: 220px 1fr; }
+    .help-modal .help-toc { background: #f8f8f8; border-right: 1px solid var(--border); padding: 16px 0; overflow-y: auto; }
+    .help-modal .help-toc a { display: block; padding: 8px 18px; color: #444; font-size: 13px; border-left: 3px solid transparent; text-decoration: none; }
+    .help-modal .help-toc a:hover { background: #f0f0f0; }
+    .help-modal .help-toc a.active { background: #fff; border-left-color: var(--aia-red); color: var(--aia-red); font-weight: 600; }
+    .help-modal .help-toc .toc-section { padding: 12px 18px 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); font-weight: 700; }
+    .help-modal .help-content { padding: 24px 32px; overflow-y: auto; line-height: 1.6; }
+    .help-modal .help-content h3 { color: var(--aia-red); margin: 0 0 12px 0; font-size: 20px; font-weight: 700; }
+    .help-modal .help-content h4 { margin: 20px 0 6px 0; font-size: 14px; color: #333; font-weight: 700; }
+    .help-modal .help-content p { margin: 0 0 12px 0; color: #444; font-size: 14px; }
+    .help-modal .help-content ul, .help-modal .help-content ol { margin: 8px 0 14px 0; padding-left: 22px; color: #444; font-size: 14px; }
+    .help-modal .help-content li { margin: 4px 0; }
+    .help-modal .help-content .callout { background: #fffbea; border-left: 4px solid #f5a623; padding: 12px 16px; margin: 12px 0; font-size: 13px; border-radius: 3px; }
+    .help-modal .help-content .callout.lead-only { background: #f3e5f5; border-left-color: #7b1fa2; }
+    .help-modal .help-content .callout.privacy { background: #e8f5e9; border-left-color: #2e7d32; }
+    .help-modal .help-content kbd { background: #f0f0f0; padding: 2px 7px; border-radius: 3px; border: 1px solid #ddd; font-family: "SF Mono", Menlo, monospace; font-size: 12px; }
+    .help-modal .help-content table.shortcuts { width: 100%; font-size: 13px; margin: 8px 0 16px; }
+    .help-modal .help-content table.shortcuts td { padding: 5px 0; vertical-align: top; }
+    .help-modal .help-content table.shortcuts td.k { width: 120px; }
+    .help-modal .help-content .contact-card { background: #f8f8f8; border: 1px solid var(--border); border-radius: 4px; padding: 14px 18px; margin: 14px 0; }
+    .help-modal .help-content .contact-card strong { color: var(--aia-red); }
+    @media (max-width: 700px) {
+      .help-modal .help-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      .help-modal .help-toc { display: flex; overflow-x: auto; padding: 8px; border-right: none; border-bottom: 1px solid var(--border); }
+      .help-modal .help-toc a { border-left: none; border-bottom: 3px solid transparent; padding: 6px 12px; white-space: nowrap; }
+      .help-modal .help-toc a.active { border-bottom-color: var(--aia-red); border-left: none; }
+      .help-modal .help-toc .toc-section { display: none; }
+    }
 
     /* Deliberation Mode */
     .delib-header { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 14px 18px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
@@ -349,6 +384,7 @@
       <div class="progress-mini" id="progressMini" style="display:none;"></div>
     </div>
     <div class="user-info" id="userInfo" style="display:none;">
+      <button class="help-btn" id="helpBtn" title="Help & Manual">❓ Help</button>
       <button class="mode-toggle" id="modeToggle" style="display:none;">→ Deliberation Mode</button>
       <span id="leadBadge" class="lead-badge" style="display:none;">JURY LEAD</span>
       <span id="userEmail"></span>
@@ -381,6 +417,20 @@
         </div>
       </div>
       <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Help / Manual modal -->
+  <div class="modal-overlay" id="helpOverlay">
+    <div class="help-modal">
+      <div class="help-header">
+        <h2>AIA Mississippi Design Awards — Jury Handbook</h2>
+        <button class="close" id="helpClose" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;">&times;</button>
+      </div>
+      <div class="help-body">
+        <nav class="help-toc" id="helpToc"></nav>
+        <div class="help-content" id="helpContent"></div>
+      </div>
     </div>
   </div>
 
@@ -1246,6 +1296,291 @@
         ${coteCell}
       </tr>`;
     }
+
+    // ------- Help / Manual modal -------
+    const HELP_SECTIONS = [
+      { section: "GETTING STARTED", items: [
+        { id: "welcome", title: "Welcome" },
+        { id: "signin", title: "Signing in" },
+        { id: "overview", title: "What this page does" },
+      ]},
+      { section: "REVIEWING ENTRIES", items: [
+        { id: "browse", title: "Browsing entries" },
+        { id: "detail", title: "Reviewing an entry" },
+        { id: "rating", title: "Rating & notes" },
+        { id: "compare", title: "Comparing entries" },
+      ]},
+      { section: "LEAD-ONLY (JURY CHAIR)", leadOnly: true, items: [
+        { id: "delib", title: "Deliberation Mode" },
+        { id: "projection", title: "Projection Mode" },
+        { id: "tagging", title: "Live tagging" },
+        { id: "results", title: "Results view" },
+      ]},
+      { section: "REFERENCE", items: [
+        { id: "shortcuts", title: "Keyboard shortcuts" },
+        { id: "privacy", title: "Anonymity & privacy" },
+        { id: "trouble", title: "Troubleshooting" },
+        { id: "contact", title: "Contact Steve" },
+      ]},
+    ];
+
+    const HELP_CONTENT = {
+      welcome: `
+        <h3>Welcome to the 2026 AIA Mississippi Design Awards jury</h3>
+        <p>Thank you for lending your expertise to this year's Design Awards. This handbook explains how to use the online jury tool for reviewing entries, taking notes, and (if you're the jury chair) running the deliberation meeting.</p>
+        <p>The tool has two modes:</p>
+        <ul>
+          <li><strong>Review Mode</strong> (all jurors) — browse entries at your own pace, rate each 1–5 stars, take private notes.</li>
+          <li><strong>Deliberation Mode</strong> (jury chair only) — see aggregate rankings, project entries during the meeting, tag Honor/Merit/None live during discussion.</li>
+        </ul>
+      `,
+      signin: `
+        <h3>Signing in</h3>
+        <p>The tool uses a passwordless sign-in — no password to remember.</p>
+        <ol>
+          <li>Enter your email address on the sign-in screen.</li>
+          <li>Check your email — you'll get a one-time login link within seconds.</li>
+          <li>Click the link. You'll land back on the jury page, signed in.</li>
+        </ol>
+        <p>Your browser will remember you for about a week, so most sessions won't require re-signing in.</p>
+        <div class="callout"><strong>Not receiving the email?</strong> Check spam. If still nothing, confirm with Steve that the email address you're using is on the jury allowlist.</div>
+      `,
+      overview: `
+        <h3>What this page does</h3>
+        <p>The jury tool shows you all completed design award entries and lets you evaluate them individually. Firm names, contact info, credit slides, and identifying files are hidden — you see only the anonymous board, the presentation (no credit), and 5 hi-res project images per entry.</p>
+        <p>Your ratings and notes are saved automatically as you work. Leave and come back anytime — everything is preserved.</p>
+      `,
+      browse: `
+        <h3>Browsing entries</h3>
+        <p>The main table lists every entry with:</p>
+        <ul>
+          <li><strong>Entry number</strong> — sequential identifier</li>
+          <li><strong>Project title</strong> — the firm's name for the project</li>
+          <li><strong>Categories</strong> — which award categories the firm submitted it under</li>
+          <li><strong>Flags</strong> — COTE means the firm opted into the Committee on the Environment award</li>
+          <li><strong>Files</strong> — how many of the 7 reviewable files are uploaded (2 PDFs + 5 images)</li>
+          <li><strong>Your rating</strong> — click stars here to rate without opening the entry</li>
+          <li>📝 icon if you've written notes on that entry</li>
+        </ul>
+        <h4>Filters</h4>
+        <p>Above the table:</p>
+        <ul>
+          <li><strong>Category dropdown</strong> — narrow to just one category</li>
+          <li><strong>Unrated only</strong> — show only entries you haven't rated yet, so you can focus on what remains</li>
+        </ul>
+        <p>The header shows your progress: <em>"X of Y rated"</em>.</p>
+      `,
+      detail: `
+        <h3>Reviewing an entry</h3>
+        <p>Click any row in the table to open the entry detail view. You'll see:</p>
+        <ul>
+          <li><strong>Anonymous board (20" × 30" PDF)</strong> rendered inline — no download needed. Click "Open full-screen" to view in a new browser tab.</li>
+          <li><strong>Presentation PDF</strong> — link at the top right of the image gallery, opens in a new tab.</li>
+          <li><strong>5 project images</strong> below the board. Click any image to open a large lightbox view with prev/next navigation.</li>
+          <li><strong>Your rating</strong> — click stars to rate</li>
+          <li><strong>Your notes</strong> — private text area, autosaves 1 second after you stop typing</li>
+        </ul>
+        <p>Use <kbd>←</kbd> and <kbd>→</kbd> to move to the previous/next entry without going back to the list. Use <kbd>Esc</kbd> to close and return.</p>
+      `,
+      rating: `
+        <h3>Rating & notes</h3>
+        <h4>Star ratings</h4>
+        <p>Rate each entry from 1 (weakest) to 5 (strongest). Click a star to set the rating, or press <kbd>1</kbd> through <kbd>5</kbd> on your keyboard while viewing an entry. Press <kbd>0</kbd> to clear.</p>
+        <p>Your ratings are private — only the jury chair can see individual jurors' scores. In Deliberation Mode, the chair will see the average across all jurors.</p>
+        <h4>Notes</h4>
+        <p>Write anything that helps you remember your thoughts: sketches of the board layout, questions to raise in deliberation, references to compare with other entries.</p>
+        <div class="callout privacy"><strong>Notes are private to you.</strong> They are only visible to the jury chair, who can choose to read them aloud during the deliberation meeting if they support a point of discussion.</div>
+      `,
+      compare: `
+        <h3>Comparing entries side-by-side</h3>
+        <p>Often you'll want to weigh two or three entries against each other. Use Compare Mode:</p>
+        <ol>
+          <li>In the main table, check the box on the left of 2–4 entries you want to compare.</li>
+          <li>A red bar appears at the bottom of the screen showing how many you've selected.</li>
+          <li>Click <strong>Compare →</strong>.</li>
+          <li>A full-screen view opens showing the anonymous boards side-by-side. Your ratings for each are shown at the top of each card.</li>
+        </ol>
+        <p>Close with the ✕ button or press <kbd>Esc</kbd>.</p>
+        <p>The Clear button on the compare bar wipes your selection.</p>
+      `,
+      delib: `
+        <h3>Deliberation Mode (jury chair only)</h3>
+        <div class="callout lead-only"><strong>Only the jury chair sees Deliberation Mode.</strong> If you're a juror (not chair), skip this section.</div>
+        <p>Click the white <strong>→ Deliberation Mode</strong> button in the header to enter. You'll see:</p>
+        <ul>
+          <li><strong>Stats bar</strong> — total entries, current Honor count, Merit count, COTE count, and how many entries you've decided.</li>
+          <li><strong>Ranked table</strong> — every entry sorted by average star rating (highest first).</li>
+          <li>Each row shows: rank, entry #, project title, average stars, individual juror scores (with 📝 if they have notes), a Tag dropdown, and a COTE checkbox (only for entries that opted in).</li>
+          <li><strong>Filter dropdown</strong> — show only Undecided / Honor / Merit / No Award / COTE-recognized entries.</li>
+          <li><strong>📋 Results button</strong> — opens the final summary view (see below).</li>
+          <li><strong>▶ Start Projection button</strong> — enters projection mode starting at the top-ranked entry.</li>
+        </ul>
+        <p><strong>Click any juror-scores cell</strong> to open a drill-down showing every juror's rating and full notes for that entry.</p>
+        <p>You can tag entries directly from this table using the dropdowns — useful for correcting a tag or working outside the meeting. Most of the time, you'll do the actual tagging inside Projection Mode.</p>
+      `,
+      projection: `
+        <h3>Projection Mode (jury chair only)</h3>
+        <p>This is the mode you run the actual deliberation meeting from. It's a full-screen dark view designed for projecting on a screen (or sharing over video).</p>
+        <ul>
+          <li><strong>Header</strong> — entry number, project title, categories</li>
+          <li><strong>Big board</strong> — the anonymous board, taking most of the screen (no PDF toolbar clutter)</li>
+          <li><strong>Sidebar</strong> — average star rating (big display), 5 image thumbnails, current recommendation badge if tagged</li>
+          <li><strong>Footer</strong> — the Tag dropdown, COTE checkbox (if applicable), rank position, and Prev/Next buttons</li>
+        </ul>
+        <p>Navigate with <kbd>←</kbd> / <kbd>→</kbd> arrow keys or the buttons. Exit with <kbd>Esc</kbd> or the "Exit Projection" button.</p>
+      `,
+      tagging: `
+        <h3>Live tagging during the meeting (jury chair only)</h3>
+        <p>During deliberation, the jury discusses each entry and reaches consensus on the award level. You capture that decision by tagging the entry.</p>
+        <p>Two ways to tag in Projection Mode:</p>
+        <ol>
+          <li><strong>Dropdown</strong> at the bottom-left of the projection footer</li>
+          <li><strong>Keyboard shortcuts</strong> (faster during discussion):
+            <table class="shortcuts">
+              <tr><td class="k"><kbd>H</kbd></td><td>Tag as Honor Award</td></tr>
+              <tr><td class="k"><kbd>M</kbd></td><td>Tag as Merit Award</td></tr>
+              <tr><td class="k"><kbd>N</kbd></td><td>Tag as No Award</td></tr>
+              <tr><td class="k"><kbd>C</kbd></td><td>Toggle COTE recognition (only for entries that opted into COTE)</td></tr>
+              <tr><td class="k"><kbd>X</kbd></td><td>Clear the tag</td></tr>
+            </table>
+          </li>
+        </ol>
+        <div class="callout privacy"><strong>COTE is independent of Honor/Merit.</strong> An entry can be both Honor Award and COTE-recognized. Only entries where the firm opted into COTE will show the COTE checkbox.</div>
+        <p>All tags are saved instantly. If you make a mistake, just re-tag or press <kbd>X</kbd> to clear.</p>
+      `,
+      results: `
+        <h3>Results view (jury chair only)</h3>
+        <p>Click <strong>📋 Results</strong> in Deliberation Mode to see the final summary:</p>
+        <ul>
+          <li>🏆 Honor Awards</li>
+          <li>Merit Awards</li>
+          <li>COTE Chapter Award Recognized</li>
+          <li>No Award</li>
+          <li>Undecided (if any entries haven't been tagged yet)</li>
+        </ul>
+        <p>Each list shows entry number, project title, and average star rating. This is the deliverable for Steve — the final decisions the jury has made.</p>
+        <p>The view is live — it refreshes each time you open it, reflecting any changes you've made in Projection Mode or the Deliberation table.</p>
+      `,
+      shortcuts: `
+        <h3>Keyboard shortcuts</h3>
+        <h4>Entry detail view</h4>
+        <table class="shortcuts">
+          <tr><td class="k"><kbd>←</kbd> / <kbd>→</kbd></td><td>Previous / next entry</td></tr>
+          <tr><td class="k"><kbd>Esc</kbd></td><td>Close current view</td></tr>
+          <tr><td class="k"><kbd>1</kbd>–<kbd>5</kbd></td><td>Set your star rating</td></tr>
+          <tr><td class="k"><kbd>0</kbd></td><td>Clear your star rating</td></tr>
+          <tr><td class="k"><kbd>F</kbd></td><td>Open board fullscreen (new tab)</td></tr>
+        </table>
+        <h4>Projection Mode (jury chair only)</h4>
+        <table class="shortcuts">
+          <tr><td class="k"><kbd>←</kbd> / <kbd>→</kbd></td><td>Previous / next entry</td></tr>
+          <tr><td class="k"><kbd>H</kbd></td><td>Tag as Honor Award</td></tr>
+          <tr><td class="k"><kbd>M</kbd></td><td>Tag as Merit Award</td></tr>
+          <tr><td class="k"><kbd>N</kbd></td><td>Tag as No Award</td></tr>
+          <tr><td class="k"><kbd>C</kbd></td><td>Toggle COTE recognition</td></tr>
+          <tr><td class="k"><kbd>X</kbd></td><td>Clear tag</td></tr>
+          <tr><td class="k"><kbd>Esc</kbd></td><td>Exit Projection Mode</td></tr>
+        </table>
+        <h4>Anywhere</h4>
+        <table class="shortcuts">
+          <tr><td class="k"><kbd>?</kbd></td><td>Show shortcuts help card</td></tr>
+        </table>
+      `,
+      privacy: `
+        <h3>Anonymity & privacy</h3>
+        <h4>What you (as a juror) DO see</h4>
+        <ul>
+          <li>Project title</li>
+          <li>Award categories the firm submitted under</li>
+          <li>COTE opt-in flag</li>
+          <li>The anonymous board (no firm name/logo on it)</li>
+          <li>The presentation (without credit slide)</li>
+          <li>The 5 hi-res project images</li>
+        </ul>
+        <h4>What you DO NOT see</h4>
+        <ul>
+          <li>Firm name</li>
+          <li>Contact person / email</li>
+          <li>The "with-name" version of the board</li>
+          <li>The presentation credit slide</li>
+          <li>The entry form (contains identifying info)</li>
+          <li>Other jurors' ratings or notes</li>
+        </ul>
+        <h4>Your notes</h4>
+        <div class="callout privacy">Your notes are visible only to you and the jury chair. Other jurors cannot see them. The chair may choose to read your notes aloud during the deliberation meeting if they support a point of discussion.</div>
+        <h4>Your ratings</h4>
+        <p>Only the jury chair can see individual jurors' scores. In Deliberation Mode, the chair sees each juror's rating alongside the aggregate average.</p>
+      `,
+      trouble: `
+        <h3>Troubleshooting</h3>
+        <h4>I can't sign in</h4>
+        <ul>
+          <li>Check spam for the login email.</li>
+          <li>Confirm your email address matches exactly what Steve has on the allowlist.</li>
+          <li>If nothing works, email Steve.</li>
+        </ul>
+        <h4>The board doesn't display</h4>
+        <ul>
+          <li>Your browser needs PDF viewer support. Chrome, Safari, Edge, and Firefox all have this built in.</li>
+          <li>If it still doesn't render, click "Open full-screen" — that opens the PDF in a new tab using the browser's native viewer.</li>
+        </ul>
+        <h4>The page is slow or unresponsive</h4>
+        <ul>
+          <li>Refresh the browser tab.</li>
+          <li>If the tool has been idle for a while, the backend may need a moment to wake up on the first load.</li>
+        </ul>
+        <h4>My rating didn't save</h4>
+        <ul>
+          <li>Watch the "saving…" / "✓ saved" indicator next to the star/notes fields.</li>
+          <li>If you see "save failed", check your internet connection and try again.</li>
+        </ul>
+      `,
+      contact: `
+        <h3>Contact Steve</h3>
+        <p>For any questions, issues, or concerns:</p>
+        <div class="contact-card">
+          <strong>Steve Pickering</strong><br>
+          AIA Mississippi<br>
+          <a href="mailto:steve@aiamississippi.org">steve@aiamississippi.org</a>
+        </div>
+        <p>If you have technical questions, please include a screenshot of what you're seeing and describe what you were trying to do.</p>
+        <p>Thanks again for your service on the jury — your careful review means a lot to the firms whose work you're evaluating.</p>
+      `,
+    };
+
+    let currentHelpSection = "welcome";
+    function openHelp() {
+      renderHelp();
+      document.getElementById("helpOverlay").classList.add("open");
+    }
+    function closeHelp() {
+      document.getElementById("helpOverlay").classList.remove("open");
+    }
+    function renderHelp() {
+      // TOC
+      const toc = document.getElementById("helpToc");
+      toc.innerHTML = HELP_SECTIONS
+        .filter(s => !s.leadOnly || state.isLead)
+        .map(s => `
+          <div class="toc-section">${s.section}</div>
+          ${s.items.map(it => `<a href="#" data-help-id="${it.id}" class="${currentHelpSection === it.id ? "active" : ""}">${it.title}</a>`).join("")}
+        `).join("");
+      toc.querySelectorAll("a[data-help-id]").forEach(a => {
+        a.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          currentHelpSection = a.dataset.helpId;
+          renderHelp();
+          document.getElementById("helpContent").scrollTop = 0;
+        });
+      });
+      // Content
+      document.getElementById("helpContent").innerHTML = HELP_CONTENT[currentHelpSection] || "<p>Section not found.</p>";
+    }
+    document.getElementById("helpBtn").addEventListener("click", openHelp);
+    document.getElementById("helpClose").addEventListener("click", closeHelp);
+    document.getElementById("helpOverlay").addEventListener("click", (e) => {
+      if (e.target.id === "helpOverlay") closeHelp();
+    });
 
     // ------- Drill-down modal (lead only) — see all jurors' notes for an entry -------
     async function openDrillDown(submissionId) {

@@ -906,15 +906,16 @@
           </div>
         `;
 
-        // Wire star rating (big, in sidebar)
-        wireStars(document.querySelector("#starRatingContainer .stars"), async (rating) => {
+        // Wire star rating (big, in sidebar) — named function so we can re-wire after re-render
+        const handleStarChange = async (rating) => {
           const statusEl = document.getElementById("starSaveStatus");
           statusEl.className = "save-status saving"; statusEl.textContent = "saving…";
           try {
             const notes = document.getElementById("myNotes").value;
-            await supabase.rpc("jury_set_evaluation", { p_submission_id: submissionId, p_stars: rating, p_notes: notes });
+            const { error } = await supabase.rpc("jury_set_evaluation", { p_submission_id: submissionId, p_stars: rating, p_notes: notes });
+            if (error) throw error;
             document.getElementById("starRatingContainer").innerHTML = starsHtml(rating, { big: true });
-            wireStars(document.querySelector("#starRatingContainer .stars"), arguments.callee);
+            wireStars(document.querySelector("#starRatingContainer .stars"), handleStarChange);
             statusEl.className = "save-status saved"; statusEl.textContent = "✓ saved";
             setTimeout(() => statusEl.textContent = "", 2000);
             // Update landing entry
@@ -924,7 +925,8 @@
             statusEl.className = "save-status error"; statusEl.textContent = "save failed";
             toast("Could not save rating: " + (e.message || e), "error");
           }
-        });
+        };
+        wireStars(document.querySelector("#starRatingContainer .stars"), handleStarChange);
 
         // Wire notes autosave (1 sec debounce)
         let notesTimer = null;
